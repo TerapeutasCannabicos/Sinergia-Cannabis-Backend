@@ -33,5 +33,6 @@ class Paciente(BaseModel):
     def verify_password(self, password:str) -> bool:
         return bcrypt.checkpw(password.encode(), self.password_hash)
 
- #sistema de adimin só o Responsável pode criar o cadastro do paciente
+#Token
+#sistema de adimin só o Responsável pode criar o cadastro do paciente
 

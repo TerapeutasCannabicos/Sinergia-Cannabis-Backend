@@ -1,8 +1,12 @@
 from flask import Blueprint 
-from app.cadastro_responsavel.controllers import (ResponsavelCreate, ResponsavelDetails) 
-#Change Password
+from app.cadastro_responsavel.controllers import (ResponsavelCurrent, ResponsavelCreate, ResponsavelDetails, ChangePassword) 
+
 
 reponsavel_api = Blueprint('responsavel_api', __name__)
+
+responsavel_api.add_url_rule(
+    '/responsavel/current', view_func=ResponsavelCurrent.as_view('reponsavel_current'), methods=['GET']
+)
 
 responsavel_api.add_url_rule(
     '/responsavel', view_func=ResponsavelCreate.as_view('reponsavel_create'), methods=['GET', 'POST']

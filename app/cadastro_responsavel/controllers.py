@@ -9,13 +9,13 @@ from app.model import BaseModel
 from app.utils.filters import filters
 from app.google_sheets.spreads import 
 
-
-class ResponsavelCreate(MethodView): #/responsavel
+class ResponsavelCurrent(methodView): #/responsavel/current
     def get(self):
 
-        schema = ResponsavelSchema(many=True) 
-        return jsonify(schema.dump(Responsavel.query.all())), 200 
+        schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema) 
+        return jsonify(schema.dump(Responsavel.query.all())), 200
 
+class ResponsavelCreate(MethodView): #/responsavel
     def post(self):
         schema = ResponsavelSchema()
         responsavel = schema.load(request.json)
