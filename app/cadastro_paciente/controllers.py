@@ -9,10 +9,8 @@ from app.model import BaseModel
 from app.utils.filters import filters
 from app.google_sheets.spreads import 
 
-
 class PacienteCurrent(methodView): #/paciente/current
     def get(self):
-
         schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema) 
         return jsonify(schema.dump(Paciente.query.all())), 200
 

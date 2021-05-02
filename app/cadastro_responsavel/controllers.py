@@ -11,7 +11,6 @@ from app.google_sheets.spreads import
 
 class ResponsavelCurrent(methodView): #/responsavel/current
     def get(self):
-
         schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema) 
         return jsonify(schema.dump(Responsavel.query.all())), 200
 
