@@ -1,15 +1,14 @@
 from flask.views import MethodView
-from flask import request, jsomify, render_templete
+from flask import request, jsonify, render_template
 from app.cadastro_responsavel.model import Responsavel
 from app.extensions import db, mail
-from flask_mail import Messege
+from flask_mail import Message
 #from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
 from .schemas import ResponsavelSchema
 from app.model import BaseModel
-from app.utils.filters import filters
-from app.google_sheets.spreads import 
+from app.utils.filters import filters 
 
-class ResponsavelCurrent(methodView): #/responsavel/current
+class ResponsavelCurrent(MethodView): #/responsavel/current
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema) 
         return jsonify(schema.dump(Responsavel.query.all())), 200
@@ -65,7 +64,7 @@ class ChangePassword(MethodView): #pw-change
         dados = request.json
         
         if not dados or not dados['email']:
-            retun {"email": "required"}, 400
+            return {"email": "required"}, 400
 
         responsavel = Responsavel.query.filter_by(email=dados['email']).first_or_404()
 

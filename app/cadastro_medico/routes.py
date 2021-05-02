@@ -1,6 +1,5 @@
 from flask import Blueprint 
 from app.cadastro_medico.controllers import (MedicoCurrent, MedicoCreate, MedicoDetails, ChangePassword) 
-#Change Password
 
 medico_api = Blueprint('medico_api', __name__)
 

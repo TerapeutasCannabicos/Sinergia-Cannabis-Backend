@@ -1,4 +1,4 @@
-form app.sensive import Sensive as sensive
+from app.sensive import Sensive as sensive
 
 class Config:
     SQLALCHEMY_DATABASE_URI = sensive.SQLALCHEMY_DATABASE_URI

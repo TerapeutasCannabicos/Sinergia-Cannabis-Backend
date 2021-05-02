@@ -1,4 +1,6 @@
 from app.extensions import db 
+import bcrypt
+from app.model import BaseModel
 
 class Responsavel(BaseModel):
     __tablename__ = 'reponsavel'

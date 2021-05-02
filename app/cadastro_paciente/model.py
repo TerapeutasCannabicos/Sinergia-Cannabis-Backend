@@ -1,5 +1,6 @@
 from app.extensions import db
 import bcrypt
+from app.model import BaseModel
 
 class Paciente(BaseModel):
     __tablename__ = 'paciente'
@@ -8,12 +9,12 @@ class Paciente(BaseModel):
     sobrenome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     data_nascimento = db.Column(db.Date(), nullable=False) #Coloco DateTime ou String??
-    cpf = db.Colum(db.String(30),unique=True, nullable=False) #Uso String ou Integer??
-    rg = db.Colum(db.Integer,unique=True, nullable=False)
-    documentos_pessoais = db.Colum(db.String(2000), nullable=False) #colocar envio de arquivos
-    diagnóstico = db.Colum(db.String(2000), nullable=False)   #colocar envio de arquivos
-    laudo_médico = db.Colum(db.String(2000), nullable=False) #colocar envio de arquivos
-    receita_médica = db.Colum(db.String(2000), nullable=False) #colocar envio de arquivos
+    cpf = db.Column(db.String(30),unique=True, nullable=False) #Uso String ou Integer??
+    rg = db.Column(db.Integer,unique=True, nullable=False)
+    documentos_pessoais = db.Column(db.String(2000), nullable=False) #colocar envio de arquivos
+    diagnóstico = db.Column(db.String(2000), nullable=False)   #colocar envio de arquivos
+    laudo_médico = db.Column(db.String(2000), nullable=False) #colocar envio de arquivos
+    receita_médica = db.Column(db.String(2000), nullable=False) #colocar envio de arquivos
     endereço = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)

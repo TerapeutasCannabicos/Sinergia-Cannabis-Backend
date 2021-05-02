@@ -1,5 +1,6 @@
 from app.extensions import db
 import bcrypt
+from app.model import BaseModel
 
 class Medico(BaseModel):
     __tablename__ = 'medico'
@@ -7,15 +8,15 @@ class Medico(BaseModel):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
     especialidade = db.Column(db.String(100), nullable=False)
-    sexo = db.Colum(db.String(2000), default=True)
+    sexo = db.Column(db.String(2000), default=True)
     Bio = db.Column(db.String(100), default=True)
-    foto_perfil = db.Colum(db.String(2000), default=True)   #colocar envio de arquivos
+    foto_perfil = db.Column(db.String(2000), default=True)   #colocar envio de arquivos
     email = db.Column(db.String(200), nullable=False, unique=True)
     facebook = db.Column(db.String(100), default=True)
     twitter = db.Column(db.String(100), default=True)
     instagram = db.Column(db.String(100), default=True)
-    cpf = db.Colum(db.String(30),unique=True, nullable=False)
-    rg = db.Colum(db.Integer,unique=True, nullable=False)
+    cpf = db.Column(db.String(30),unique=True, nullable=False)
+    rg = db.Column(db.Integer,unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
     endereço = db.Column(db.String(500), nullable=False)

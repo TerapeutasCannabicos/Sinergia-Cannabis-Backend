@@ -1,16 +1,15 @@
 from flask import abort, make_response, jsonify
 
 class Filter:
-    def getSchema(self, qs, schema_cls, rel(), **kwargs) -> object 
+    def getSchema(self, qs, schema_cls, rel=(), **kwargs) -> object:
+        fields = qs.get("fields", None)
+        embed = qs.get("embed", None)
 
-    fields = qs.get("fields", None)
-    embed = qs.get("embed", None)
-
-    if not fields and not embed:
-        return schema_cls(exclude=rel, **kwargs)
+        if not fields and not embed:
+            return schema_cls(exclude=rel, **kwargs)
     
-    params = fields.split(",") if fields else None
-    relationships = embed.split(",") if embed else None
+        params = fields.split(",") if fields else None
+        relationships = embed.split(",") if embed else None
 
         if not fields:
             exclude = list(set(rel)-set(relationships))
@@ -26,6 +25,5 @@ class Filter:
         except ValueError:
             abort(make_response(
                 jsonify({'errors': 'invalid field or embed'}), 400))
-
-
+                
 filters = Filter()

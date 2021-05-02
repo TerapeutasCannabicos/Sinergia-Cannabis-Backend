@@ -19,7 +19,7 @@ class PacienteSchema(ma.SQLAlchemySchema):
     documentos_pessoais = ma.String(required=True) #colocar envio de arquivos
     diagnóstico = ma.String(required=True)   #colocar envio de arquivos
     laudo_médico = ma.String(required=True) #colocar envio de arquivos
-    receita_médica = mma.String(required=True) #colocar envio de arquivos
+    receita_médica = ma.String(required=True) #colocar envio de arquivos
     endereço = ma.String(required=True)
     bairro = ma.String(required=True)
     numero = ma.Integer(required=True)

@@ -1,6 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_paciente.controllers import (PacienteCurrent, PacienteCreate, PacienteDetails, ChangePassword) 
-#Change Password
+from app.cadastro_paciente.controllers import (PacienteCurrent, PacienteCreate, PacienteDetails, ChangePassword)
 
 paciente_api = Blueprint('paciente_api', __name__)
 

@@ -20,7 +20,7 @@ class MedicoSchema(ma.SQLAlchemySchema):
     twitter = ma.String()
     instagram = ma.String()
     cpf = ma.String(required=True)
-    rg = ma.String(required=True))
+    rg = ma.String(required=True)
     celular = ma.String(required=True)
     telefone_secundario = ma.String()
     endereço = ma.String(required=True)
