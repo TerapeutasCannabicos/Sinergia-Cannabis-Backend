@@ -33,7 +33,7 @@ class PacienteCreate(MethodView): #/paciente
 
 class PacienteDetails(MethodView): #/paciente/<int:id>
     def get(self,id):
-        schema = filters.getSchema(qs=request.args, schema_cls=Pacienteschema)
+        schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema)
         paciente = Paciente.query.get_or_404(id)
         return schema.dump(paciente), 200
 
