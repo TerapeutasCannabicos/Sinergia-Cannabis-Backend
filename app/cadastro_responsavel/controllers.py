@@ -23,7 +23,7 @@ class ResponsavelCreate(MethodView): #/responsavel
         msg = Message(sender= 'camilamaia@poli.ufrj.br',
                                recipients=[responsavel.email],
                                subject= 'Bem-vindo!', 
-                               html=render_template('email.html', name=responsavel.name))
+                               html=render_template('email.html', nome=responsavel.nome))
 
         mail.send(msg)
 
@@ -74,7 +74,7 @@ class ChangePassword(MethodView): #pw-change
         msg = Message(sender='camilamaia@poli.ufrj.br',
                               recipients=[responsavel.email],
                               subject='Recuperação de Senha',
-                              html=render_template('pw.html', name=responsavel.name))
+                              html=render_template('pw.html', nome=responsavel.nome))
         
         mail.send(msg)
 
