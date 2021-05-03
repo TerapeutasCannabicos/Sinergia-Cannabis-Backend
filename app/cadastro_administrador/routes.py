@@ -1,5 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_administrador.controllers import (AdministradorCurrent, AdministradorCreate, AdministradorDetails, ChangePassword) 
+from app.cadastro_administrador.controllers import (AdministradorCurrent, AdministradorCreate, AdministradorDetails, AdministradorConfirm, EmailPassword, ResetPassword) 
 
 administrador_api = Blueprint('administrador_api', __name__)
 
@@ -16,5 +16,13 @@ administrador_api.add_url_rule(
 )
 
 administrador_api.add_url_rule(
-    '/pw-change', view_func=ChangePassword.as_view('password_change'), methods=['POST']
+    '/administrador-confirm', view_func=AdministradorConfirm.as_view('administrador_change'), methods=['POST']
+)
+
+administrador_api.add_url_rule(
+    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+)
+
+administrador_api.add_url_rule(
+    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
 )
