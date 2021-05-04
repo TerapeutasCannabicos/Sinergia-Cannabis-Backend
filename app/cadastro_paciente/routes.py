@@ -1,5 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_paciente.controllers import (PacienteCurrent, PacienteCreate, PacienteDetails, ChangePassword)
+from app.cadastro_paciente.controllers import (PacienteCurrent, PacienteCreate, PacienteDetails, PacienteConfirm, EmailPassword, ResetPassword)
 
 paciente_api = Blueprint('paciente_api', __name__)
 
@@ -16,5 +16,13 @@ paciente_api.add_url_rule(
 )
 
 paciente_api.add_url_rule(
-    '/pw-change', view_func=ChangePassword.as_view('password_change'), methods=['POST']
+    '/paciente-confirm', view_func=PacienteConfirm.as_view('paciente_change'), methods=['POST']
+)
+
+paciente_api.add_url_rule(
+    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+)
+
+paciente_api.add_url_rule(
+    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
 )

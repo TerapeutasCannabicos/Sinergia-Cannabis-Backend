@@ -1,5 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_advogado.controllers import (AdvogadoCurrent, AdvogadoCreate, AdvogadoDetails, ChangePassword) 
+from app.cadastro_advogado.controllers import (AdvogadoCurrent, AdvogadoCreate, AdvogadoDetails, AdvogadoConfirm, EmailPassword, ResetPassword) 
 
 advogado_api = Blueprint('advogado_api', __name__)
 
@@ -16,5 +16,13 @@ advogado_api.add_url_rule(
 )
 
 advogado_api.add_url_rule(
-    '/pw-change', view_func=ChangePassword.as_view('password_change'), methods=['POST']
+    '/advogado-confirm', view_func=AdvogadoConfirm.as_view('advogado_change'), methods=['POST']
+)
+
+advogado_api.add_url_rule(
+    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+)
+
+advogado_api.add_url_rule(
+    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
 )

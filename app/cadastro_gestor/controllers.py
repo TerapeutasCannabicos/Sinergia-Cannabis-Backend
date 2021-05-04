@@ -60,7 +60,22 @@ class GestorDetails(MethodView): #/gestor/<int:id>
 
         return {}, 204
 
-class ChangePassword(MethodView): #pw-change
+class GestorConfirm(MethodView): #gestor-confirm
+    def get(self, token):
+        try:
+            data = decode_token(token)
+        except:
+            return {'error': 'invalid token'}, 401
+        
+        gestor = Gestor.query.get_or_404(data['identity'])
+
+        if not gestor.active:
+            gestor.active = True 
+            gestor.save()
+
+        return render_template('email2.html')
+
+class EmailPassword(MethodView): #pw-email
     def post(self):
         dados = request.json
         
@@ -72,6 +87,7 @@ class ChangePassword(MethodView): #pw-change
         if not gestor: 
             return {'email não válido!'}
 
+        token = create_acess_token(identity=gestor.id, expires_delta=timedelta(minutes=30))
         msg = Message(sender='camilamaia@poli.ufrj.br',
                               recipients=[gestor.email],
                               subject='Recuperação de Senha',
@@ -79,4 +95,22 @@ class ChangePassword(MethodView): #pw-change
         
         mail.send(msg)
 
-        return (" ", 200)
+        return {'msg': 'email enviado'}, 200
+
+class ResetPassword(MethodView): #pw-reset
+    def patch(self, token):
+        try: 
+            gestor = decode_token(token)
+        except:
+            return {'error': 'invalid token'}, 401
+
+        gestor = Gestor.query.get_or_404(gestor['identity'])
+        data = request.json
+
+        if not data or not data['password']:
+            return {"password": "required"}, 400
+
+        gestor.password = data['password']
+        gestor.save()
+
+        return {'msg': 'senha atualizada'}, 200

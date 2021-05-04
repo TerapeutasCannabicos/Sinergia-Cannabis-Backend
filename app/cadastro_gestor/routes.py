@@ -1,5 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_gestor.controllers import (GestorCurrent, GestorCreate, GestorDetails, ChangePassword) 
+from app.cadastro_gestor.controllers import (GestorCurrent, GestorCreate, GestorDetails, GestorConfirm, EmailPassword, ResetPassword) 
 
 gestor_api = Blueprint('gestor_api', __name__)
 
@@ -16,5 +16,13 @@ gestor_api.add_url_rule(
 )
 
 gestor_api.add_url_rule(
-    '/pw-change', view_func=ChangePassword.as_view('password_change'), methods=['POST']
+    '/gestor-confirm', view_func=GestorConfirm.as_view('gestor_change'), methods=['POST']
+)
+
+gestor_api.add_url_rule(
+    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+)
+
+gestor_api.add_url_rule(
+    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
 )

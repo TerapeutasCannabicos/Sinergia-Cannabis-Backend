@@ -59,18 +59,34 @@ class ResponsavelDetails(MethodView): #/responsavel/<int:id>
 
         return {}, 204
 
-class ChangePassword(MethodView): #pw-change
+class ResponsavelConfirm(MethodView): #responsavel-confirm
+    def get(self, token):
+        try:
+            data = decode_token(token)
+        except:
+            return {'error': 'invalid token'}, 401
+        
+        responsavel = Responsavel.query.get_or_404(data['identity'])
+
+        if not responsavel.active:
+            responsavel.active = True 
+            responsavel.save()
+
+        return render_template('email2.html')
+
+class EmailPassword(MethodView): #pw-email
     def post(self):
         dados = request.json
         
         if not dados or not dados['email']:
             return {"email": "required"}, 400
 
-        responsavel = Responsavel.query.filter_by(email=dados['email']).first_or_404()
+        responsavel  = Responsavel.query.filter_by(email=dados['email']).first_or_404()
 
         if not responsavel: 
             return {'email não válido!'}
 
+        token = create_acess_token(identity=responsavel.id, expires_delta=timedelta(minutes=30))
         msg = Message(sender='camilamaia@poli.ufrj.br',
                               recipients=[responsavel.email],
                               subject='Recuperação de Senha',
@@ -78,4 +94,22 @@ class ChangePassword(MethodView): #pw-change
         
         mail.send(msg)
 
-        return (" ", 200)
+        return {'msg': 'email enviado'}, 200
+
+class ResetPassword(MethodView): #pw-reset
+    def patch(self, token):
+        try: 
+            responsavel = decode_token(token)
+        except:
+            return {'error': 'invalid token'}, 401
+
+        responsavel = Responsavel.query.get_or_404(responsavel['identity'])
+        data = request.json
+
+        if not data or not data['password']:
+            return {"password": "required"}, 400
+
+        responsavel.password = data['password']
+        responsavel.save()
+
+        return {'msg': 'senha atualizada'}, 200

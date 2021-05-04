@@ -1,5 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_medico.controllers import (MedicoCurrent, MedicoCreate, MedicoDetails, ChangePassword) 
+from app.cadastro_medico.controllers import (MedicoCurrent, MedicoCreate, MedicoDetails, MedicoConfirm, EmailPassword, ResetPassword) 
 
 medico_api = Blueprint('medico_api', __name__)
 
@@ -16,5 +16,13 @@ medico_api.add_url_rule(
 )
 
 medico_api.add_url_rule(
-    '/pw-change', view_func=ChangePassword.as_view('password_change'), methods=['POST']
+    '/medico-confirm', view_func=MedicoConfirm.as_view('medico_change'), methods=['POST']
+)
+
+medico_api.add_url_rule(
+    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+)
+
+medico_api.add_url_rule(
+    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
 )

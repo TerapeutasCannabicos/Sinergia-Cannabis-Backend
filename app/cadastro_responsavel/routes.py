@@ -1,5 +1,5 @@
 from flask import Blueprint 
-from app.cadastro_responsavel.controllers import (ResponsavelCurrent, ResponsavelCreate, ResponsavelDetails, ChangePassword) 
+from app.cadastro_responsavel.controllers import (ResponsavelCurrent, ResponsavelCreate, ResponsavelDetails, ResponsavelConfirm, EmailPassword, ResetPassword) 
 
 responsavel_api = Blueprint('responsavel_api', __name__)
 
@@ -16,5 +16,13 @@ responsavel_api.add_url_rule(
 )
 
 responsavel_api.add_url_rule(
-    '/pw-change', view_func=ChangePassword.as_view('password_change'), methods=['POST']
+    '/responsavel-confirm', view_func=ResponsavelConfirm.as_view('responsavel_change'), methods=['POST']
+)
+
+responsavel_api.add_url_rule(
+    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+)
+
+responsavel_api.add_url_rule(
+    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
 )
