@@ -14,7 +14,7 @@ class OutrosCurrent(MethodView): #/outros/current
         return jsonify(schema.dump(Outros.query.all())), 200
 
 
-class outrosCreate(MethodView): #/outros
+class OutrosCreate(MethodView): #/outros
     def post(self):
         schema = OutrosSchema()
         outros = schema.load(request.json)
