@@ -1,15 +1,16 @@
 from app.extensions import ma 
-from app.cadastro_gestor.model import Gestor
+from app.cadastro_outros.model import Outros
 
-class GestorSchema(ma.SQLAlchemySchema):
+class OutrosSchema(ma.SQLAlchemySchema):
 
     class Meta:
 
-        model = Gestor
+        model = Outros
         load_instance=True
         ordered=True
     
     id = ma.Integer(dump_only=True)
+    cargo = ma.String(required=True)
     nome = ma.String(required=True)
     sobrenome = ma.String(required=True)
     email = ma.Email(required=True)

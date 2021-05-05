@@ -2,9 +2,10 @@ from app.extensions import db
 import bcrypt
 from app.model import BaseModel
 
-class Advogado(BaseModel):
-    __tablename__ = 'advogado'
+class Outros(BaseModel):
+    __tablename__ = 'outros'
     id = db.Column(db.Integer, primary_key=True)
+    cargo = db.Column(db.String(100), nullable=False)
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
@@ -17,8 +18,8 @@ class Advogado(BaseModel):
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
-    cep = db.Column(db.String(50), nullable=False) 
-    nome_associação = db.Column(db.String(200), nullable=False)
+    cep = db.Column(db.String(50), nullable=False)
+    nome_associação = db.Column(db.String(200), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
     @property

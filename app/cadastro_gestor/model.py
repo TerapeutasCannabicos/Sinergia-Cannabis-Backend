@@ -9,7 +9,6 @@ class Gestor(BaseModel):
     sobrenome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     cpf = db.Column(db.String(30),unique=True, nullable=False)
-    rg = db.Column(db.String(30),unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
     endereço = db.Column(db.String(500), nullable=False)
@@ -18,7 +17,8 @@ class Gestor(BaseModel):
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
-    cep = db.Column(db.String(50), nullable=False) 
+    cep = db.Column(db.String(50), nullable=False)
+    nome_associação = db.Column(db.String(200), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
     @property
