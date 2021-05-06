@@ -3,7 +3,7 @@ import bcrypt
 from app.model import BaseModel
 
 class Responsavel(BaseModel):
-    __tablename__ = 'reponsavel'
+    __tablename__ = 'responsavel'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
@@ -16,7 +16,9 @@ class Responsavel(BaseModel):
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False) 
-    password_hash = db.Column(db.LargeBinary(128))    
+    password_hash = db.Column(db.LargeBinary(128))  
+
+    pacientes = db.relationship('Pacientes', backref='responsavel')  
 
     @property
     def password(self):

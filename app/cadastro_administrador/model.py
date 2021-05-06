@@ -1,6 +1,7 @@
 from app.extensions import db
 import bcrypt
 from app.model import BaseModel
+from app.association import association_table, association_table2, association_table3, association_table4
 
 class Administrador(BaseModel):
     __tablename__ = 'administrador'
@@ -20,6 +21,11 @@ class Administrador(BaseModel):
     cep = db.Column(db.String(50), nullable=False) 
     nome_associação = db.Column(db.String(200), nullable=False)
     password_hash = db.Column(db.LargeBinary(128))
+
+    gestor = db.relationship('Gestor', secondary=association_table, backref='administrador')
+    paciente = db.relationship('Paciente', secondary=association_table2, backref='administrador2')
+    medico = db.relationship('Medico', secondary=association_table3, backref='administrador3')
+    outros = db.relationship('Outros', secondary=association_table4, backref='administrador4')
 
     @property
     def password(self):
