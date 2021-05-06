@@ -23,7 +23,7 @@ class Gestor(BaseModel):
     password_hash = db.Column(db.LargeBinary(128))
 
     administrador = db.relationship('Administrador', secondary=association_table, backref='gestor')
-    paciente = db.relationship('Paciente', secondary=association_table5, backref='gestor5')
+    paciente = db.relationship('Paciente', secondary=association_table5, backref='gestor')
 
     @property
     def password(self):
