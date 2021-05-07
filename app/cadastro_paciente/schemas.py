@@ -34,6 +34,7 @@ class PacienteSchema(ma.SQLAlchemySchema):
     medico = ma.Nested('MedicoSchema', dump_only=True)
     outros = ma.Nested('OutrosSchema', dump_only=True)
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
+    advogado = ma.Nested('AdvogadoSchema', dump_only=True)
 
     @validates('name')
     def validate_name(self, name): 

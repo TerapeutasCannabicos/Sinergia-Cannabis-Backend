@@ -28,6 +28,7 @@ class AdvogadoSchema(ma.SQLAlchemySchema):
     password = ma.String(load_only=True, required=True)
 
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
+    paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
 
     @validates('name')
     def validate_name(self, name): 
