@@ -29,6 +29,12 @@ class AdministradorSchema(ma.SQLAlchemySchema):
     nome_associação = ma.String(required=True) 
     password = ma.String(load_only=True, required=True)
 
+    gestor = ma.Nested('GestorSchema', many=True, dump_only=True)
+    paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
+    medico = ma.Nested('MedicoSchema', many=True, dump_only=True)
+    outros = ma.Nested('OutrosSchema', many=True, dump_only=True)
+    advogado = ma.Nested('AdvogadoSchema', many=True, dump_only=True)
+
     @validates('name')
     def validate_name(self, name): 
         if name == '': 

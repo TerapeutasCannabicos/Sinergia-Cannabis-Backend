@@ -28,6 +28,10 @@ class GestorSchema(ma.SQLAlchemySchema):
     nome_associação = ma.String(required=True)
     password = ma.String(load_only=True, required=True)
 
+    paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
+    administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
+
+
     @validates('name')
     def validate_name(self, name): 
         if name == '': 

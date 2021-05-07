@@ -19,3 +19,7 @@ association_table4 = db.Table('association4', db.Model.metadata,
 association_table5 = db.Table('association5', db.Model.metadata,
                             db.Column('gestor', db.Integer, db.ForeignKey('gestor.id')), 
                             db.Column('paciente', db.Integer, db.ForeignKey('paciente.id')))
+
+association_table6 = db.Table('association6', db.Model.metadata,
+                            db.Column('administrador', db.Integer, db.ForeignKey('administrador.id')), 
+                            db.Column('advogado', db.Integer, db.ForeignKey('advogado.id')))

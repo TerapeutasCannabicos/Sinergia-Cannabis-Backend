@@ -29,7 +29,7 @@ class Medico(BaseModel):
     cep = db.Column(db.String(50), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
-    pacientes = db.relationship('Pacientes', backref='medico') 
+    paciente = db.relationship('Paciente', backref='medico') 
     administrador = db.relationship('Administrador', secondary=association_table3, backref='medico')
 
     @property

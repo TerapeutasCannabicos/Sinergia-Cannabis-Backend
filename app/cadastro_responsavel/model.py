@@ -18,7 +18,7 @@ class Responsavel(BaseModel):
     estado = db.Column(db.String(200), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))  
 
-    pacientes = db.relationship('Pacientes', backref='responsavel')  
+    paciente = db.relationship('Paciente', backref='responsavel')  
 
     @property
     def password(self):

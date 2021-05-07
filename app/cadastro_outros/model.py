@@ -23,7 +23,7 @@ class Outros(BaseModel):
     nome_associação = db.Column(db.String(200), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
-    pacientes = db.relationship('Pacientes', backref='outros') 
+    paciente = db.relationship('Paciente', backref='outros') 
     administrador = db.relationship('Administrador', secondary=association_table4, backref='outros')
 
     @property
