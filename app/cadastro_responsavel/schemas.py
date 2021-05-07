@@ -1,5 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_responsavel.model import Responsavel
+from marshmallow import ValidationError, validates
 
 class ResponsavelSchema(ma.SQLAlchemySchema):
 
@@ -22,3 +23,8 @@ class ResponsavelSchema(ma.SQLAlchemySchema):
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
     password = ma.String(load_only=True, required=True)
+
+    @validates('name')
+    def validate_name(self, name): 
+        if name == '': 
+            raise ValidationError('Invalid Name')

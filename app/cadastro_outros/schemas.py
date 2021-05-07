@@ -1,5 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_outros.model import Outros
+from marshmallow import ValidationError, validates
 
 class OutrosSchema(ma.SQLAlchemySchema):
 
@@ -27,3 +28,8 @@ class OutrosSchema(ma.SQLAlchemySchema):
     cep = ma.String(required=True) 
     nome_associação = ma.String(required=True)
     password = ma.String(load_only=True, required=True)
+
+    @validates('name')
+    def validate_name(self, name): 
+        if name == '': 
+            raise ValidationError('Invalid Name')

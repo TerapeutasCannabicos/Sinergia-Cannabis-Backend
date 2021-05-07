@@ -1,5 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_paciente.model import Paciente
+from marshmallow import ValidationError, validates
 
 class PacienteSchema(ma.SQLAlchemySchema):
 
@@ -27,3 +28,9 @@ class PacienteSchema(ma.SQLAlchemySchema):
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
     password = ma.String(load_only=True, required=True)
+
+
+    @validates('name')
+    def validate_name(self, name): 
+        if name == '': 
+            raise ValidationError('Invalid Name')

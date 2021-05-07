@@ -1,5 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_gestor.model import Gestor
+from marshmallow import ValidationError, validates
 
 class GestorSchema(ma.SQLAlchemySchema):
 
@@ -26,3 +27,8 @@ class GestorSchema(ma.SQLAlchemySchema):
     cep = ma.String(required=True) 
     nome_associação = ma.String(required=True)
     password = ma.String(load_only=True, required=True)
+
+    @validates('name')
+    def validate_name(self, name): 
+        if name == '': 
+            raise ValidationError('Invalid Name')

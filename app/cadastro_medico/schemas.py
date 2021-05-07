@@ -1,5 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_medico.model import Medico
+from marshmallow import ValidationError, validates
 
 class MedicoSchema(ma.SQLAlchemySchema):
 
@@ -31,5 +32,10 @@ class MedicoSchema(ma.SQLAlchemySchema):
     estado = ma.String(required=True)
     cep = ma.String(required=True) 
     password = ma.String(load_only=True, required=True)
+
+    @validates('name')
+    def validate_name(self, name): 
+        if name == '': 
+            raise ValidationError('Invalid Name')
 
        
