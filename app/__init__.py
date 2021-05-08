@@ -9,6 +9,7 @@ from app.cadastro_administrador.routes import administrador_api
 from app.cadastro_advogado.routes import advogado_api
 from app.cadastro_gestor.routes import gestor_api
 from app.cadastro_outros.routes import outros_api
+from app.storage.routes import storage_api
 
 
 def create_app():
@@ -26,5 +27,6 @@ def create_app():
     app.register_blueprint(advogado_api)
     app.register_blueprint(gestor_api)
     app.register_blueprint(outros_api)
+    app.register_blueprint(storage_api)
 
     return app

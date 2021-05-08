@@ -16,6 +16,7 @@ flask-jwt-extended = "*"
 marshmallow = "*"
 schema = "*"
 sqlalchemy = "*"
+boto3 = "*"
 
 [dev-packages]
 

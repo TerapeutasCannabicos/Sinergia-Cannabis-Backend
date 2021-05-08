@@ -42,3 +42,23 @@ class Medico(BaseModel):
 
     def verify_password(self, password:str) -> bool:
         return bcrypt.checkpw(password.encode(), self.password_hash)
+
+#foto_perfil
+
+    def delete_foto_perfil(self):
+        if self.foto_perfil:
+            storage.delete_object(file_key=self.foto_perfil)
+
+    @property
+    def foto_perfil_url(self) -> str:
+        if self.foto_perfil:
+            return storage.get_url(file_key=self.foto_perfil)
+        return None
+
+    @foto_perfil_url.setter
+    def foto_perfil_url(self, foto_perfil_url):
+        self.delete_foto_perfil()
+
+        self.foto_perfil = foto_perfil_url
+
+        return {}, 204
