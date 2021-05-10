@@ -24,13 +24,13 @@ class AdvogadoSchema(ma.SQLAlchemySchema):
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
     cep = ma.String(required=True) 
-    nome_associação = ma.String(required=True) 
+    nome_associacao = ma.String(required=True) 
     password = ma.String(load_only=True, required=True)
 
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
     paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
 
-    @validates('name')
-    def validate_name(self, name): 
-        if name == '': 
-            raise ValidationError('Invalid Name')
+    @validates('nome')
+    def validate_nome(self, nome): 
+        if nome == '': 
+            raise ValidationError('Nome invalido')

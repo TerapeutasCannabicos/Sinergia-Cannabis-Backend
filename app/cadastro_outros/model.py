@@ -20,7 +20,7 @@ class Outros(BaseModel):
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
     cep = db.Column(db.String(50), nullable=False)
-    nome_associação = db.Column(db.String(200), nullable=False) 
+    nome_associacao= db.Column(db.String(200), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
     paciente = db.relationship('Paciente', backref='outros') 

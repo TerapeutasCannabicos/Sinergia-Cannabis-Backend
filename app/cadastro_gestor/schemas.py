@@ -15,7 +15,6 @@ class GestorSchema(ma.SQLAlchemySchema):
     sobrenome = ma.String(required=True)
     email = ma.Email(required=True)
     cpf = ma.String(required=True)
-    rg = ma.String(required=True)
     celular = ma.String(required=True)
     telefone_secundario = ma.String()
     endereço = ma.String(required=True)
@@ -25,14 +24,14 @@ class GestorSchema(ma.SQLAlchemySchema):
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
     cep = ma.String(required=True) 
-    nome_associação = ma.String(required=True)
+    nome_associacao = ma.String(required=True)
     password = ma.String(load_only=True, required=True)
 
     paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
 
 
-    @validates('name')
-    def validate_name(self, name): 
-        if name == '': 
-            raise ValidationError('Invalid Name')
+    @validates('nome')
+    def validate_nome(self, nome): 
+        if nome == '': 
+            raise ValidationError('Nome invalido')

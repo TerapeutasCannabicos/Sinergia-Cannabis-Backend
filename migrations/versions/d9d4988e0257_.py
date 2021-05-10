@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e0ba90f3bc6c
+Revision ID: d9d4988e0257
 Revises: 
-Create Date: 2021-05-09 20:51:14.192558
+Create Date: 2021-05-09 22:24:07.587296
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e0ba90f3bc6c'
+revision = 'd9d4988e0257'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,7 +33,7 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associação', sa.String(length=200), nullable=False),
+    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
@@ -56,7 +56,7 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associação', sa.String(length=200), nullable=False),
+    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
@@ -112,7 +112,7 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associação', sa.String(length=200), nullable=False),
+    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
@@ -204,7 +204,7 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associação', sa.String(length=200), nullable=False),
+    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.Column('paciente_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['paciente_id'], ['paciente.id'], ),

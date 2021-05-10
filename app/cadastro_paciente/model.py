@@ -27,7 +27,7 @@ class Paciente(BaseModel):
     responsavel_id = db.Column(db.Integer, db.ForeignKey('responsavel.id')) 
     medico_id = db.Column(db.Integer, db.ForeignKey('medico.id')) 
     outros_id = db.Column(db.Integer, db.ForeignKey('outros.id')) 
-    administrador = db.relationship('Administrador2', secondary=association_table2, backref='paciente')
+    administrador = db.relationship('Administrador', secondary=association_table2, backref='paciente')
     gestor = db.relationship('Gestor', secondary=association_table5, backref='paciente')
     advogado = db.relationship('Advogado', back_populates='paciente')
 

@@ -37,9 +37,9 @@ class MedicoSchema(ma.SQLAlchemySchema):
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
 
 
-    @validates('name')
-    def validate_name(self, name): 
-        if name == '': 
-            raise ValidationError('Invalid Name')
+    @validates('nome')
+    def validate_nome(self, nome): 
+        if nome == '': 
+            raise ValidationError('Nome invalido')
 
        
