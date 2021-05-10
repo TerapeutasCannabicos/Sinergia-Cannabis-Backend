@@ -1,5 +1,5 @@
 from flask import Blueprint
-from .controllers import MediaStorage
+from app.storage.controllers import MediaStorage
 
 storage_api = Blueprint('storage_api', __name__)
 
