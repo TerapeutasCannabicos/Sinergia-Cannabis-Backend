@@ -4,7 +4,7 @@ from app.cadastro_administrador.model import Administrador
 from app.extensions import db, mail
 from flask_mail import Message
 #from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
-from .schemas import AdministradorSchema
+from app.cadastro_administrador.schemas import AdministradorSchema
 from app.model import BaseModel
 from app.utils.filters import filters
 
@@ -20,15 +20,18 @@ class AdministradorCreate(MethodView): #/administrador
         administrador = schema.load(request.json)
 
         administrador.save()
-
+        return schema.dump(administrador), 201
+'''
         msg = Message(sender= 'camilamaia@poli.ufrj.br',
-                               recipients=[administrador.email],
-                               subject= 'Bem-vindo!', 
-                               html=render_template('email.html', nome=administrador.nome))
+        recipients=[administrador.email],
+        subject= 'Bem-vindo!', 
+        html=render_template('email.html', nome=administrador.nome))
 
         mail.send(msg)
 
+
         return schema.dump(administrador), 201
+'''
 
 class AdministradorDetails(MethodView): #/administrador/<int:id>
     def get(self,id):

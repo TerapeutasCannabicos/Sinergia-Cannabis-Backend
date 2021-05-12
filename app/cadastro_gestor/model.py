@@ -22,8 +22,8 @@ class Gestor(BaseModel):
     nome_associacao = db.Column(db.String(200), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
-    administrador = db.relationship('Administrador', secondary=association_table, backref='gestor')
-    paciente = db.relationship('Paciente', secondary=association_table5, backref='gestor')
+    administrador = db.relationship('Administrador', secondary=association_table, backref='gestor1')
+    paciente = db.relationship('Paciente', secondary=association_table5, backref='gestor5')
 
     @property
     def password(self):

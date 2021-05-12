@@ -22,7 +22,7 @@ class Advogado(BaseModel):
     nome_associacao = db.Column(db.String(200), nullable=False)
     password_hash = db.Column(db.LargeBinary(128))
 
-    administrador = db.relationship('Administrador', secondary=association_table6, backref='advogado')
+    administrador = db.relationship('Administrador', secondary=association_table6, backref='advogado6')
     paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
     paciente = db.relationship('Paciente', back_populates= 'advogado')
 

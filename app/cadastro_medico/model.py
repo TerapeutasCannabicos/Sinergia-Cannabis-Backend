@@ -30,7 +30,7 @@ class Medico(BaseModel):
     password_hash = db.Column(db.LargeBinary(128))
 
     paciente = db.relationship('Paciente', backref='medico') 
-    administrador = db.relationship('Administrador', secondary=association_table3, backref='medico')
+    administrador = db.relationship('Administrador', secondary=association_table3, backref='medico3')
 
     @property
     def password(self):

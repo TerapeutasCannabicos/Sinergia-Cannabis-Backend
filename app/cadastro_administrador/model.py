@@ -22,11 +22,11 @@ class Administrador(BaseModel):
     nome_associacao = db.Column(db.String(200), nullable=False)
     password_hash = db.Column(db.LargeBinary(128))
 
-    gestor = db.relationship('Gestor', secondary=association_table, backref='administrador')
-    paciente = db.relationship('Paciente', secondary=association_table2, backref='administrador')
-    medico = db.relationship('Medico', secondary=association_table3, backref='administrador')
-    outros = db.relationship('Outros', secondary=association_table4, backref='administrador')
-    advogado = db.relationship('Advogado', secondary=association_table6, backref='administrador')
+    gestor = db.relationship('Gestor', secondary=association_table, backref='administrador1')
+    paciente = db.relationship('Paciente', secondary=association_table2, backref='administrador2')
+    medico = db.relationship('Medico', secondary=association_table3, backref='administrador3')
+    outros = db.relationship('Outros', secondary=association_table4, backref='administrador4')
+    advogado = db.relationship('Advogado', secondary=association_table6, backref='administrador6')
 
     @property
     def password(self):
