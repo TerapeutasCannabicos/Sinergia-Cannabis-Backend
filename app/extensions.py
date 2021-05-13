@@ -7,4 +7,4 @@ from flask_marshmallow import Marshmallow
 db = SQLAlchemy()
 migrate = Migrate()
 mail = Mail()
-ma = Marshmallow()
+ma = Marshmallow() 

@@ -23,8 +23,7 @@ class AdvogadoSchema(ma.SQLAlchemySchema):
     complemento = ma.String(required=True)
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
-    cep = ma.String(required=True) 
-    nome_associacao = ma.String(required=True) 
+    cep = ma.String(required=True)  
     password = ma.String(load_only=True, required=True)
 
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)

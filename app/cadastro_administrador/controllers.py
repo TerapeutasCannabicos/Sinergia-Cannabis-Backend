@@ -20,18 +20,16 @@ class AdministradorCreate(MethodView): #/administrador
         administrador = schema.load(request.json)
 
         administrador.save()
-        return schema.dump(administrador), 201
-'''
+
         msg = Message(sender= 'camilamaia@poli.ufrj.br',
         recipients=[administrador.email],
         subject= 'Bem-vindo!', 
-        html=render_template('email.html', nome=administrador.nome))
+        html=render_template('email.html', name=administrador.nome))
 
         mail.send(msg)
 
-
         return schema.dump(administrador), 201
-'''
+
 
 class AdministradorDetails(MethodView): #/administrador/<int:id>
     def get(self,id):
