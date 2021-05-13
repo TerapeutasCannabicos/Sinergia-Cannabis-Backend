@@ -8,6 +8,8 @@ class Responsavel(BaseModel):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
+    cpf = db.Column(db.String(30),unique=True, nullable=False)
+    rg = db.Column(db.String(30),unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
     endereço = db.Column(db.String(500), nullable=False)

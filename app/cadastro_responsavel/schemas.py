@@ -14,6 +14,8 @@ class ResponsavelSchema(ma.SQLAlchemySchema):
     nome = ma.String(required=True)
     sobrenome = ma.String(required=True)
     email = ma.Email(required=True)
+    cpf = ma.String(required=True)
+    rg = ma.String(required=True)
     celular = ma.String(required=True)
     telefone_secundario = ma.String()
     endereço = ma.String(required=True)
