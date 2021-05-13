@@ -3,7 +3,7 @@ from flask import request, jsonify, render_template
 from app.cadastro_responsavel.model import Responsavel
 from app.extensions import db, mail
 from flask_mail import Message
-#from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
+from flask_jwt_extended import jwt_required, decode_token
 from .schemas import ResponsavelSchema
 from app.model import BaseModel
 from app.utils.filters import filters 
@@ -86,7 +86,6 @@ class EmailPassword(MethodView): #pw-email
         if not responsavel: 
             return {'email não válido!'}
 
-        token = create_acess_token(identity=responsavel.id, expires_delta=timedelta(minutes=30))
         msg = Message(sender='camilamaia@poli.ufrj.br',
                               recipients=[responsavel.email],
                               subject='Recuperação de Senha',

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: d1658a2e7322
+Revision ID: 364aa1945563
 Revises: 
-Create Date: 2021-05-13 08:54:50.266213
+Create Date: 2021-05-13 17:31:30.885089
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd1658a2e7322'
+revision = '364aa1945563'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,7 +33,6 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
@@ -56,7 +55,6 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
@@ -69,8 +67,8 @@ def upgrade():
     sa.Column('nome', sa.String(length=100), nullable=False),
     sa.Column('sobrenome', sa.String(length=100), nullable=False),
     sa.Column('especialidade', sa.String(length=100), nullable=False),
-    sa.Column('sexo', sa.String(length=2000), nullable=True),
-    sa.Column('Bio', sa.String(length=100), nullable=True),
+    sa.Column('sexo', sa.String(length=30), nullable=True),
+    sa.Column('Bio', sa.String(length=1000), nullable=True),
     sa.Column('foto_perfil', sa.String(length=2000), nullable=True),
     sa.Column('email', sa.String(length=200), nullable=False),
     sa.Column('facebook', sa.String(length=100), nullable=True),
@@ -112,7 +110,6 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
@@ -204,7 +201,6 @@ def upgrade():
     sa.Column('cidade', sa.String(length=200), nullable=False),
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('cep', sa.String(length=50), nullable=False),
-    sa.Column('nome_associacao', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.Column('paciente_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['paciente_id'], ['paciente.id'], ),

@@ -9,8 +9,8 @@ class Medico(BaseModel):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
     especialidade = db.Column(db.String(100), nullable=False)
-    sexo = db.Column(db.String(2000), default=True)
-    Bio = db.Column(db.String(100), default=True)
+    sexo = db.Column(db.String(30), default=True)
+    Bio = db.Column(db.String(1000), default=True)
     foto_perfil = db.Column(db.String(2000), default=True)   #colocar envio de arquivos
     email = db.Column(db.String(200), nullable=False, unique=True)
     facebook = db.Column(db.String(100), default=True)

@@ -13,6 +13,7 @@ class MedicoSchema(ma.SQLAlchemySchema):
     id = ma.Integer(dump_only=True)
     nome = ma.String(required=True)
     sobrenome = ma.String(required=True)
+    especialidade = ma.String(required=True)
     sexo = ma.String(required=True)
     Bio = ma.String()
     foto_perfil = ma.String(required=True)   #colocar envio de arquivos

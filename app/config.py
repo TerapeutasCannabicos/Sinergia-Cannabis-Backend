@@ -12,3 +12,5 @@ class Config:
     MAIL_USE_TLS = sensive.MAIL_USE_TLS
     MAIL_USE_SSL = sensive.MAIL_USE_SSL
 
+    JWT_SECRET_KEY = sensive.JWT_SECRET_KEY
+

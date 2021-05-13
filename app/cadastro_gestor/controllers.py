@@ -3,7 +3,7 @@ from flask import request, jsonify, render_template
 from app.cadastro_gestor.model import Gestor
 from app.extensions import db, mail
 from flask_mail import Message
-#from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
+from flask_jwt_extended import jwt_required, decode_token
 from .schemas import GestorSchema
 from app.model import BaseModel
 from app.utils.filters import filters
@@ -87,7 +87,6 @@ class EmailPassword(MethodView): #pw-email
         if not gestor: 
             return {'email não válido!'}
 
-        token = create_acess_token(identity=gestor.id, expires_delta=timedelta(minutes=30))
         msg = Message(sender='camilamaia@poli.ufrj.br',
                               recipients=[gestor.email],
                               subject='Recuperação de Senha',
