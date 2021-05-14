@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 364aa1945563
+Revision ID: 2854ed1caeef
 Revises: 
-Create Date: 2021-05-13 17:31:30.885089
+Create Date: 2021-05-14 15:52:48.838153
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '364aa1945563'
+revision = '2854ed1caeef'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -68,8 +68,8 @@ def upgrade():
     sa.Column('sobrenome', sa.String(length=100), nullable=False),
     sa.Column('especialidade', sa.String(length=100), nullable=False),
     sa.Column('sexo', sa.String(length=30), nullable=True),
-    sa.Column('Bio', sa.String(length=1000), nullable=True),
-    sa.Column('foto_perfil', sa.String(length=2000), nullable=True),
+    sa.Column('bio', sa.String(length=500), nullable=True),
+    sa.Column('foto_perfil', sa.String(length=500), nullable=True),
     sa.Column('email', sa.String(length=200), nullable=False),
     sa.Column('facebook', sa.String(length=100), nullable=True),
     sa.Column('twitter', sa.String(length=100), nullable=True),
@@ -122,6 +122,8 @@ def upgrade():
     sa.Column('nome', sa.String(length=100), nullable=False),
     sa.Column('sobrenome', sa.String(length=100), nullable=False),
     sa.Column('email', sa.String(length=200), nullable=False),
+    sa.Column('cpf', sa.String(length=30), nullable=False),
+    sa.Column('rg', sa.String(length=30), nullable=False),
     sa.Column('celular', sa.String(length=20), nullable=False),
     sa.Column('telefone_secundario', sa.String(length=20), nullable=True),
     sa.Column('endereço', sa.String(length=500), nullable=False),
@@ -132,8 +134,12 @@ def upgrade():
     sa.Column('estado', sa.String(length=200), nullable=False),
     sa.Column('password_hash', sa.LargeBinary(length=128), nullable=True),
     sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('cpf'),
+    sa.UniqueConstraint('cpf'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('email')
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('rg'),
+    sa.UniqueConstraint('rg')
     )
     op.create_table('association',
     sa.Column('administrador', sa.Integer(), nullable=True),

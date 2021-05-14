@@ -15,8 +15,8 @@ class MedicoSchema(ma.SQLAlchemySchema):
     sobrenome = ma.String(required=True)
     especialidade = ma.String(required=True)
     sexo = ma.String(required=True)
-    Bio = ma.String()
-    foto_perfil = ma.String(required=True)   #colocar envio de arquivos
+    bio = ma.String()
+    foto_perfil = ma.String(required=True)
     email = ma.Email(required=True)
     facebook = ma.String()
     twitter = ma.String()

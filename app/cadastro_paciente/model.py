@@ -2,6 +2,7 @@ from app.extensions import db
 import bcrypt
 from app.model import BaseModel
 from app.association import association_table2, association_table5
+from app.storage.storage import storage
 
 class Paciente(BaseModel):
     __tablename__ = 'paciente'
@@ -9,13 +10,13 @@ class Paciente(BaseModel):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    data_nascimento = db.Column(db.Date(), nullable=False) #Coloco DateTime ou String??
-    cpf = db.Column(db.String(30),unique=True, nullable=False) #Uso String ou Integer??
+    data_nascimento = db.Column(db.Date(), nullable=False) 
+    cpf = db.Column(db.String(30),unique=True, nullable=False)
     rg = db.Column(db.String(30),unique=True, nullable=False)
-    documentos_pessoais = db.Column(db.String(2000), nullable=False) #colocar envio de arquivos
-    diagnostico = db.Column(db.String(2000), nullable=False)   #colocar envio de arquivos
-    laudo_medico = db.Column(db.String(2000), nullable=False) #colocar envio de arquivos
-    receita_medica = db.Column(db.String(2000), nullable=False) #colocar envio de arquivos
+    documentos_pessoais = db.Column(db.String(2000), nullable=False)
+    diagnostico = db.Column(db.String(2000), nullable=False)
+    laudo_medico = db.Column(db.String(2000), nullable=False)
+    receita_medica = db.Column(db.String(2000), nullable=False)
     endereço = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)

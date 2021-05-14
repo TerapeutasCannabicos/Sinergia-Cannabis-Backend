@@ -18,9 +18,9 @@ class PacienteSchema(ma.SQLAlchemySchema):
     cpf = ma.String(required=True)
     rg = ma.String(required=True)
     documentos_pessoais = ma.String(required=True) #colocar envio de arquivos
-    diagnóstico = ma.String(required=True)   #colocar envio de arquivos
-    laudo_médico = ma.String(required=True) #colocar envio de arquivos
-    receita_médica = ma.String(required=True) #colocar envio de arquivos
+    diagnostico = ma.String(required=True)   #colocar envio de arquivos
+    laudo_medico = ma.String(required=True) #colocar envio de arquivos
+    receita_medica = ma.String(required=True) #colocar envio de arquivos
     endereço = ma.String(required=True)
     bairro = ma.String(required=True)
     numero = ma.Integer(required=True)

@@ -2,6 +2,7 @@ from app.extensions import db
 import bcrypt
 from app.model import BaseModel
 from app.association import association_table3
+from app.storage.storage import storage
 
 class Medico(BaseModel):
     __tablename__ = 'medico'
@@ -10,8 +11,8 @@ class Medico(BaseModel):
     sobrenome = db.Column(db.String(100), nullable=False)
     especialidade = db.Column(db.String(100), nullable=False)
     sexo = db.Column(db.String(30), default=True)
-    Bio = db.Column(db.String(1000), default=True)
-    foto_perfil = db.Column(db.String(2000), default=True)   #colocar envio de arquivos
+    bio = db.Column(db.String(500), default=True)
+    foto_perfil = db.Column(db.String(500), default=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
     facebook = db.Column(db.String(100), default=True)
     twitter = db.Column(db.String(100), default=True)

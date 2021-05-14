@@ -31,7 +31,7 @@ class ResponsavelCreate(MethodView): #/responsavel
 
 class ResponsavelDetails(MethodView): #/responsavel/<int:id>
     def get(self,id):
-        schema = filters.getSchema(qs=request.args, schema_cls=Responsavelschema)
+        schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema)
         responsavel = Responsavel.query.get_or_404(id)
         return schema.dump(responsavel), 200
 
