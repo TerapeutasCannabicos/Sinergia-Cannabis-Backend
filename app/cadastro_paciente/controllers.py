@@ -7,14 +7,19 @@ from flask_jwt_extended import jwt_required, decode_token
 from .schemas import PacienteSchema
 from app.model import BaseModel
 from app.utils.filters import filters 
+from app.permissions import responsavel_jwt_required
 
 class PacienteCurrent(MethodView): #/paciente/current
+
     def get(self):
+        decorators = [responsavel_jwt_required]
+
         schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema) 
         return jsonify(schema.dump(Paciente.query.all())), 200
 
 
 class PacienteCreate(MethodView): #/paciente
+
     def post(self):
         schema = PacienteSchema()
         paciente = schema.load(request.json)
@@ -31,6 +36,7 @@ class PacienteCreate(MethodView): #/paciente
         return schema.dump(paciente), 201
 
 class PacienteDetails(MethodView): #/paciente/<int:id>
+
     def get(self,id):
         schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema)
         paciente = Paciente.query.get_or_404(id)
@@ -61,6 +67,7 @@ class PacienteDetails(MethodView): #/paciente/<int:id>
         return {}, 204
 
 class PacienteConfirm(MethodView): #paciente-confirm
+
     def get(self, token):
         try:
             data = decode_token(token)
@@ -76,6 +83,7 @@ class PacienteConfirm(MethodView): #paciente-confirm
         return render_template('email2.html')
 
 class EmailPassword(MethodView): #pw-email
+
     def post(self):
         dados = request.json
         
@@ -97,6 +105,7 @@ class EmailPassword(MethodView): #pw-email
         return {'msg': 'email enviado'}, 200
 
 class ResetPassword(MethodView): #pw-reset
+
     def patch(self, token):
         try: 
             paciente = decode_token(token)

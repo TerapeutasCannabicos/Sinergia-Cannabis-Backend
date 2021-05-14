@@ -1,9 +1,12 @@
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
-from app.gestor.model import Gestor
-from app.administrador.model import Administrador
-from app.medico.model import Medico
-from app.paciente.model import Paciente
-#from app.advogado.model import Advogado
+from app.cadastro_gestor.model import Gestor
+from app.cadastro_administrador.model import Administrador
+from app.cadastro_medico.model import Medico
+from app.cadastro_paciente.model import Paciente
+from app.cadastro_advogado.model import Advogado
+#from app.cadastro_outros import Outros
+from app.cadastro_responsavel import Responsavel
+
 from functools import wraps
 
 def gestor_jwt_required(func): 
@@ -61,7 +64,7 @@ def paciente_jwt_required(func):
             return {'msg': 'permission denied'}
 
     return wrapper
-'''
+
 def advogado_jwt_required(func): 
     @wraps(func) 
     def wrapper(*args, **kwargs):  
@@ -76,3 +79,31 @@ def advogado_jwt_required(func):
 
     return wrapper
 '''
+def outros_jwt_required(func): 
+    @wraps(func) 
+    def wrapper(*args, **kwargs):  
+        verify_jwt_in_request()
+        outros = Outros.query.get(kwargs.get(id)) 
+        if kwargs.get('outros_id') == get_jwt_identity(): 
+            check = Outros.query.get_or_404(get_jwt_identity())
+            if check.type_outros == 'outros':
+                return func(*args, **kwargs)
+        else: 
+            return {'msg': 'permission denied'}
+
+    return wrapper
+'''
+
+def responsavel_jwt_required(func): 
+    @wraps(func) 
+    def wrapper(*args, **kwargs):  
+        verify_jwt_in_request()
+        responsavel = Responsavel.query.get(kwargs.get(id)) 
+        if kwargs.get('responsavel_id') == get_jwt_identity(): 
+            check = Responsavel.query.get_or_404(get_jwt_identity())
+            if check.type_responsavel == 'responsavel':
+                return func(*args, **kwargs)
+        else: 
+            return {'msg': 'permission denied'}
+
+    return wrapper
