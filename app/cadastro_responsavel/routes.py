@@ -8,7 +8,7 @@ responsavel_api.add_url_rule(
 )
 
 responsavel_api.add_url_rule(
-    '/responsavel', view_func=ResponsavelCreate.as_view('reponsavel_create'), methods=['GET', 'POST']
+    '/responsavel', view_func=ResponsavelCreate.as_view('reponsavel_create'), methods=['POST']
 )
 
 responsavel_api.add_url_rule(
@@ -16,13 +16,13 @@ responsavel_api.add_url_rule(
 )
 
 responsavel_api.add_url_rule(
-    '/responsavel-confirm', view_func=ResponsavelConfirm.as_view('responsavel_change'), methods=['POST']
+    '/responsavel-confirm', view_func=ResponsavelConfirm.as_view('responsavel_confirm'), methods=['GET']
 )
 
 responsavel_api.add_url_rule(
-    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+    '/pw-email', view_func=EmailPassword.as_view('email_password'), methods=['POST']
 )
 
 responsavel_api.add_url_rule(
-    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
+    '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )

@@ -24,6 +24,7 @@ class ResponsavelSchema(ma.SQLAlchemySchema):
     complemento = ma.String(required=True)
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
+    confirmacao_cadastro = ma.Boolean(dump_only=True)
     password = ma.String(load_only=True, required=True)
 
     paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)

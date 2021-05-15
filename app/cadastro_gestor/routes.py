@@ -8,7 +8,7 @@ gestor_api.add_url_rule(
 )
 
 gestor_api.add_url_rule(
-    '/gestor', view_func=GestorCreate.as_view('gestor_create'), methods=['GET', 'POST']
+    '/gestor', view_func=GestorCreate.as_view('gestor_create'), methods=['POST']
 )
 
 gestor_api.add_url_rule(
@@ -16,13 +16,13 @@ gestor_api.add_url_rule(
 )
 
 gestor_api.add_url_rule(
-    '/gestor-confirm', view_func=GestorConfirm.as_view('gestor_change'), methods=['POST']
+    '/gestor-confirm', view_func=GestorConfirm.as_view('gestor_confirm'), methods=['GET']
 )
 
 gestor_api.add_url_rule(
-    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+    '/pw-email', view_func=EmailPassword.as_view('email_password'), methods=['POST']
 )
 
 gestor_api.add_url_rule(
-    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
+    '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )

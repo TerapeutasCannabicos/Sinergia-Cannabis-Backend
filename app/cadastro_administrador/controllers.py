@@ -1,10 +1,22 @@
 from flask.views import MethodView
 from flask import request, jsonify, render_template
 from app.cadastro_administrador.model import Administrador
+from app.cadastro_advogado.model import Advogado
+from app.cadastro_gestor.model import Gestor
+from app.cadastro_medico.model import Medico
+from app.cadastro_outros.model import Outros
+from app.cadastro_paciente.model import Paciente
+from app.cadastro_responsavel.model import Responsavel
 from app.extensions import db, mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
 from app.cadastro_administrador.schemas import AdministradorSchema
+from app.cadastro_advogado.schemas import AdvogadoSchema
+from app.cadastro_gestor.schemas import GestorSchema
+from app.cadastro_medico.schemas import MedicoSchema
+from app.cadastro_outros.schemas import OutrosSchema
+from app.cadastro_paciente.schemas import PacienteSchema
+from app.cadastro_responsavel.schemas import ResponsavelSchema
 from app.model import BaseModel
 from app.utils.filters import filters
 
@@ -114,3 +126,22 @@ class ResetPassword(MethodView): #pw-reset
         administrador.save()
 
         return {'msg': 'senha atualizada'}, 200
+
+class RegisterConfirm(MethodView): #register-confirm
+    def get(self):
+        
+        schema = AdvogadoSchema
+
+        if Advogado.confirmacao_cadastro == False:
+            lista = Advogado.nome(many=True)
+            def nao_confirmados(lista):
+                for objeto in lista:
+                    lista.append(objeto)
+                return lista
+
+        return jsonify(schema.dump(lista.query.all())), 200
+
+class RegisterAccept(MethodView): #register-accept
+    def get(self):
+        schema = filters.getSchema(qs=request.args, schema_cls=AdministradorSchema) 
+        return jsonify(schema.dump(Administrador.query.all())), 200

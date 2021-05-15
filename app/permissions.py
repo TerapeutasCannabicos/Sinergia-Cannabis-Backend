@@ -4,8 +4,8 @@ from app.cadastro_administrador.model import Administrador
 from app.cadastro_medico.model import Medico
 from app.cadastro_paciente.model import Paciente
 from app.cadastro_advogado.model import Advogado
-#from app.cadastro_outros import Outros
-from app.cadastro_responsavel import Responsavel
+#from app.cadastro_outros.model import Outros
+from app.cadastro_responsavel.model import Responsavel
 
 from functools import wraps
 

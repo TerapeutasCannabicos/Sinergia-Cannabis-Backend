@@ -19,6 +19,7 @@ class Gestor(BaseModel):
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
     cep = db.Column(db.String(50), nullable=False) 
+    confirmacao_cadastro = db.Column(db.Boolean, nullable=False)
     password_hash = db.Column(db.LargeBinary(128))
 
     administrador = db.relationship('Administrador', secondary=association_table, backref='gestor1')

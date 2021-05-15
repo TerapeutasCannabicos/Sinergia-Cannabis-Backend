@@ -8,7 +8,7 @@ medico_api.add_url_rule(
 )
 
 medico_api.add_url_rule(
-    '/medico', view_func=MedicoCreate.as_view('medico_create'), methods=['GET', 'POST']
+    '/medico', view_func=MedicoCreate.as_view('medico_create'), methods=['POST']
 )
 
 medico_api.add_url_rule(
@@ -16,13 +16,13 @@ medico_api.add_url_rule(
 )
 
 medico_api.add_url_rule(
-    '/medico-confirm', view_func=MedicoConfirm.as_view('medico_change'), methods=['POST']
+    '/medico-confirm', view_func=MedicoConfirm.as_view('medico_confirm'), methods=['GET']
 )
 
 medico_api.add_url_rule(
-    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+    '/pw-email', view_func=EmailPassword.as_view('email_password'), methods=['POST']
 )
 
 medico_api.add_url_rule(
-    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
+    '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )

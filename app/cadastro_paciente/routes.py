@@ -8,7 +8,7 @@ paciente_api.add_url_rule(
 )
 
 paciente_api.add_url_rule(
-    '/paciente', view_func=PacienteCreate.as_view('paciente_create'), methods=['GET', 'POST']
+    '/paciente', view_func=PacienteCreate.as_view('paciente_create'), methods=['POST']
 )
 
 paciente_api.add_url_rule(
@@ -16,13 +16,13 @@ paciente_api.add_url_rule(
 )
 
 paciente_api.add_url_rule(
-    '/paciente-confirm', view_func=PacienteConfirm.as_view('paciente_change'), methods=['POST']
+    '/paciente-confirm', view_func=PacienteConfirm.as_view('paciente_confirm'), methods=['GET']
 )
 
 paciente_api.add_url_rule(
-    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+    '/pw-email', view_func=EmailPassword.as_view('email_password'), methods=['POST']
 )
 
 paciente_api.add_url_rule(
-    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
+    '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )

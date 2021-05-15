@@ -12,7 +12,6 @@ from app.permissions import responsavel_jwt_required
 class PacienteCurrent(MethodView): #/paciente/current
 
     def get(self):
-        decorators = [responsavel_jwt_required]
 
         schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema) 
         return jsonify(schema.dump(Paciente.query.all())), 200

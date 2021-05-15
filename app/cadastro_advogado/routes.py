@@ -8,7 +8,7 @@ advogado_api.add_url_rule(
 )
 
 advogado_api.add_url_rule(
-    '/advogado', view_func=AdvogadoCreate.as_view('advogado_create'), methods=['GET', 'POST']
+    '/advogado', view_func=AdvogadoCreate.as_view('advogado_create'), methods=['POST']
 )
 
 advogado_api.add_url_rule(
@@ -16,13 +16,13 @@ advogado_api.add_url_rule(
 )
 
 advogado_api.add_url_rule(
-    '/advogado-confirm', view_func=AdvogadoConfirm.as_view('advogado_change'), methods=['POST']
+    '/advogado-confirm', view_func=AdvogadoConfirm.as_view('advogado_confirm'), methods=['GET']
 )
 
 advogado_api.add_url_rule(
-    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+    '/pw-email', view_func=EmailPassword.as_view('email_password'), methods=['POST']
 )
 
 advogado_api.add_url_rule(
-    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
+    '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )

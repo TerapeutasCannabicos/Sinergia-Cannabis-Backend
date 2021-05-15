@@ -23,6 +23,7 @@ class Paciente(BaseModel):
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False) 
+    confirmacao_cadastro = db.Column(db.Boolean, nullable=False)
     password_hash = db.Column(db.LargeBinary(128))
 
     responsavel_id = db.Column(db.Integer, db.ForeignKey('responsavel.id')) 

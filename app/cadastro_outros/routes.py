@@ -8,7 +8,7 @@ outros_api.add_url_rule(
 )
 
 outros_api.add_url_rule(
-    '/outros', view_func=OutrosCreate.as_view('outros_create'), methods=['GET', 'POST']
+    '/outros', view_func=OutrosCreate.as_view('outros_create'), methods=['POST']
 )
 
 outros_api.add_url_rule(
@@ -16,13 +16,13 @@ outros_api.add_url_rule(
 )
 
 outros_api.add_url_rule(
-    '/outros-confirm', view_func=OutrosConfirm.as_view('outros_change'), methods=['POST']
+    '/outros-confirm', view_func=OutrosConfirm.as_view('outros_confirm'), methods=['GET']
 )
 
 outros_api.add_url_rule(
-    '/pw-email', view_func=EmailPassword.as_view('email_change'), methods=['POST']
+    '/pw-email', view_func=EmailPassword.as_view('email_password'), methods=['POST']
 )
 
 outros_api.add_url_rule(
-    '/pw-reset', view_func=ResetPassword.as_view('password_change'), methods=['POST']
+    '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )
