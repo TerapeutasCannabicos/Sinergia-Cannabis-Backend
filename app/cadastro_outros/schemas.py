@@ -1,5 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_outros.model import Outros
+from app.cadastro_outros.model import PermissaoOutros
 from marshmallow import ValidationError, validates
 
 class OutrosSchema(ma.SQLAlchemySchema):
@@ -35,3 +36,17 @@ class OutrosSchema(ma.SQLAlchemySchema):
     def validate_nome(self, nome): 
         if nome == '': 
             raise ValidationError('Nome invalido')
+
+class PermissaoSchema(ma.SQLAlchemySchema):
+
+    class Meta:
+
+        model = PermissaoOutros
+        load_instance=True
+        ordered=True
+
+    id = ma.Integer(dump_only=True)
+    permissao_adm = ma.Boolean(dump_only=True)
+    permissao_gestor = ma.Boolean(dump_only=True)
+    permissao_medico = ma.Boolean(dump_only=True)
+    permissao_advogado = ma.Boolean(dump_only=True)

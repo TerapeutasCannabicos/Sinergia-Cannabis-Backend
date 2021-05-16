@@ -1,10 +1,10 @@
 from flask.views import MethodView
 from flask import request, jsonify, render_template
-from app.cadastro_outros.model import Outros
+from app.cadastro_outros.model import Outros, PermissaoOutros
 from app.extensions import db, mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
-from .schemas import OutrosSchema
+from .schemas import OutrosSchema, PermissaoSchema
 from app.model import BaseModel
 from app.utils.filters import filters
 
@@ -113,3 +113,13 @@ class ResetPassword(MethodView): #pw-reset
         outros.save()
 
         return {'msg': 'senha atualizada'}, 200
+
+class PermissoesOutros(MethodView):
+    def patch(self,token):
+        permissao = PermissaoOutros.query.get_or_404(id)
+        schema = PermissaoSchema()
+        permissao = schema.load(request.json, instance = permissao, partial=True)
+#Fazer com que só um seja verdadeiro 
+        permissao.save()
+
+        return schema.dump(permissao)

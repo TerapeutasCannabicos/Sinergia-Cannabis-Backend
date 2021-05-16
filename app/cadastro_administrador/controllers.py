@@ -126,12 +126,10 @@ class ResetPassword(MethodView): #pw-reset
         administrador.save()
 
         return {'msg': 'senha atualizada'}, 200
-
+'''
 class RegisterConfirm(MethodView): #register-confirm
-    def get(self):
-        
+    def get(self):        
         schema = AdvogadoSchema
-
         if Advogado.confirmacao_cadastro == False:
             lista = Advogado.nome(many=True)
             def nao_confirmados(lista):
@@ -145,3 +143,4 @@ class RegisterAccept(MethodView): #register-accept
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=AdministradorSchema) 
         return jsonify(schema.dump(Administrador.query.all())), 200
+'''

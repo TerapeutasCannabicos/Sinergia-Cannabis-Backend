@@ -25,6 +25,7 @@ class Outros(BaseModel):
 
     paciente = db.relationship('Paciente', backref='outros') 
     administrador = db.relationship('Administrador', secondary=association_table4, backref='outros4')
+    permissao = db.relationship('Permissao', back_populates= 'outros')
 
     @property
     def password(self):
@@ -36,3 +37,14 @@ class Outros(BaseModel):
 
     def verify_password(self, password:str) -> bool:
         return bcrypt.checkpw(password.encode(), self.password_hash)
+
+
+class PermissaoOutros(BaseModel): 
+    __tablename__ = 'permissao'
+    id = db.Column(db.Integer, primary_key=True)
+    permissao_adm = db.Column(db.Boolean, nullable=False)
+    permissao_gestor = db.Column(db.Boolean, nullable=False)
+    permissao_medico = db.Column(db.Boolean, nullable=False)
+    permissao_advogado = db.Column(db.Boolean, nullable=False)
+
+    outros = db.relationship('Outros', back_populates='permissao')

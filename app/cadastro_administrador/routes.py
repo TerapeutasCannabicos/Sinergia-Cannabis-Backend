@@ -26,6 +26,8 @@ administrador_api.add_url_rule(
 administrador_api.add_url_rule(
     '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
 )
+'''
 administrador_api.add_url_rule(
     '/register-confirm', view_func=RegisterConfirm.as_view('register_confirm'), methods=['GET']
 )
+'''
