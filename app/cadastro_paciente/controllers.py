@@ -7,13 +7,13 @@ from flask_jwt_extended import jwt_required, decode_token
 from .schemas import PacienteSchema
 from app.model import BaseModel
 from app.utils.filters import filters 
-from app.permissions import responsavel_jwt_required
+from app.functions import cpf_check, email_check
 
 class PacienteCurrent(MethodView): #/paciente/current
 
     def get(self):
 
-        schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema) 
+        schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema, many=True) 
         return jsonify(schema.dump(Paciente.query.all())), 200
 
 

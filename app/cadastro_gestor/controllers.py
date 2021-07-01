@@ -7,10 +7,11 @@ from flask_jwt_extended import jwt_required, decode_token
 from .schemas import GestorSchema
 from app.model import BaseModel
 from app.utils.filters import filters
+from app.functions import cpf_check, email_check
 
 class GestorCurrent(MethodView): #/gestor/current
     def get(self):
-        schema = filters.getSchema(qs=request.args, schema_cls=GestorSchema) 
+        schema = filters.getSchema(qs=request.args, schema_cls=GestorSchema, many=True) 
         return jsonify(schema.dump(Gestor.query.all())), 200
 
 
@@ -18,6 +19,9 @@ class GestorCreate(MethodView): #/gestor
     def post(self):
         schema = GestorSchema()
         gestor = schema.load(request.json)
+
+        if not email_check(gestor.email) or not cpf_check(gestor.cpf):
+            return {'error': 'Usuário já cadastrado'}        
 
         gestor.save()
 

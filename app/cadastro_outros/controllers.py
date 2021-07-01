@@ -1,15 +1,48 @@
 from flask.views import MethodView
 from flask import request, jsonify, render_template
-from app.cadastro_outros.model import Outros, PermissaoOutros
-from app.extensions import db, mail
+from app.cadastro_outros.model import Outros
+from app.permissao_outros.model import PermissaoOutros
+from app.extensions import mail
 from flask_mail import Message
-from flask_jwt_extended import jwt_required, decode_token
-from .schemas import OutrosSchema, PermissaoSchema
+from flask_jwt_extended import decode_token
+from app.cadastro_outros.schemas import OutrosSchema
 from app.model import BaseModel
 from app.utils.filters import filters
+from app.permissions import advogado_jwt_required, administrador_jwt_required, medico_jwt_required, gestor_jwt_required 
+from app.functions import cpf_check, email_check
+import json
+
+#/<int:medico_id>
+class PermissionOutros(MethodView): #permission/outros
+
+    def get(self): 
+
+        outros = Outros.query.filter_by(permissao_adm=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=OutrosSchema, many=True)
+        json_outros = jsonify(schema.dump(outros))
+        json_outros = json_outros.json
+        dicionario = {"outros": json_outros}
+
+        return json.dumps(dicionario), 200
+
+class PermissaoAdm(MethodView):   #/permissao/adm/outros/<int:id>
+    def patch(self,id):
+        outros = Outros.query.get_or_404(id)
+        schema = OutrosSchema()
+        outros = schema.load(request.json, instance = outros, partial=True)
+
+        outros.save()
+
+        return schema.dump(outros)
+'''
+        permissao_outros = Outros.query.get_or_404(id)
+        permissao_outros.permissao = PermissaoOutros(outros_id = permissao_outros.id)
+        permissao_outros[1].nivel_permissao == 1
+'''
+
 
 class OutrosCurrent(MethodView): #/outros/current
-    def get(self):
+    def get(self):        
         schema = filters.getSchema(qs=request.args, schema_cls=OutrosSchema) 
         return jsonify(schema.dump(Outros.query.all())), 200
 
@@ -18,6 +51,9 @@ class OutrosCreate(MethodView): #/outros
     def post(self):
         schema = OutrosSchema()
         outros = schema.load(request.json)
+
+        if not email_check(outros.email) or not cpf_check(outros.cpf):
+            return {'error': 'Usuário já cadastrado'} 
 
         outros.save()
 
@@ -31,7 +67,7 @@ class OutrosCreate(MethodView): #/outros
         return schema.dump(outros), 201
 
 class OutrosDetails(MethodView): #/outros/<int:id>
-    def get(self,id):
+    def get(self,id):            
         schema = filters.getSchema(qs=request.args, schema_cls=OutrosSchema)
         outros = Outros.query.get_or_404(id)
         return schema.dump(outros), 200
@@ -54,7 +90,7 @@ class OutrosDetails(MethodView): #/outros/<int:id>
 
         return schema.dump(outros)
 
-    def delete(self,id): 
+    def delete(self,id):
         outros = Outros.query.get_or_404(id)
         outros.delete(outros)
 
@@ -77,6 +113,7 @@ class OutrosConfirm(MethodView): #outros-confirm
 
 class EmailPassword(MethodView): #pw-email
     def post(self):
+
         dados = request.json
         
         if not dados or not dados['email']:
@@ -113,13 +150,15 @@ class ResetPassword(MethodView): #pw-reset
         outros.save()
 
         return {'msg': 'senha atualizada'}, 200
+'''
+class Advogado 
 
-class PermissoesOutros(MethodView):
-    def patch(self,token):
-        permissao = PermissaoOutros.query.get_or_404(id)
-        schema = PermissaoSchema()
-        permissao = schema.load(request.json, instance = permissao, partial=True)
-#Fazer com que só um seja verdadeiro 
-        permissao.save()
-
-        return schema.dump(permissao)
+        if PermissaoOutros.permissao_adm == True: 
+            return administrador_jwt_required
+        elif PermissaoOutros.permissao_gestor == True:
+            return gestor_jwt_required
+        elif PermissaoOutros.permissao_medico == True:
+            return medico_jwt_required
+        elif PermissaoOutros.permissao_advogado == True:
+            return advogado_jwt_required
+'''

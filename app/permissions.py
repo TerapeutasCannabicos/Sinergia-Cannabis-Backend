@@ -9,101 +9,89 @@ from app.cadastro_responsavel.model import Responsavel
 
 from functools import wraps
 
-def gestor_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
+def gestor_jwt_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         verify_jwt_in_request()
-        gestor = Gestor.query.get(kwargs.get(id)) 
-        if kwargs.get('gestor_id') == get_jwt_identity(): 
+        if kwargs.get('gestor_id') != get_jwt_identity():
+            return {'error': 'Unauthorized user'}, 401
+        else:
             check = Gestor.query.get_or_404(get_jwt_identity())
-            if check.type_gestor == 'gestor':
+            if check:
                 return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
+            return func(*args, **kwargs)
     return wrapper
 
-def medico_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
+def medico_jwt_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         verify_jwt_in_request()
-        medico =Medico.query.get(kwargs.get(id)) 
-        if kwargs.get('medico_id') == get_jwt_identity(): 
+        if kwargs.get('medico_id') != get_jwt_identity():
+            return {'error': 'Unauthorized user'}, 401
+        else:
             check = Medico.query.get_or_404(get_jwt_identity())
-            if check.type_medico == 'medico':
+            if check:
                 return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
+            return func(*args, **kwargs)
     return wrapper
 
-def administrador_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
+def administrador_jwt_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         verify_jwt_in_request()
-        administrador =Administrador.query.get(kwargs.get(id)) 
-        if kwargs.get('administrador_id') == get_jwt_identity(): 
+        if kwargs.get('administrador_id') != get_jwt_identity():
+            return {'error': 'Unauthorized user'}, 401
+        else:
             check = Administrador.query.get_or_404(get_jwt_identity())
-            if check.type_administrador == 'administrador':
+            if check:
                 return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
+            return func(*args, **kwargs)
     return wrapper
 
-def paciente_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
+def paciente_jwt_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         verify_jwt_in_request()
-        paciente =Paciente.query.get(kwargs.get(id)) 
-        if kwargs.get('paciente_id') == get_jwt_identity(): 
+        if kwargs.get('paciente_id') != get_jwt_identity():
+            return {'error': 'Unauthorized user'}, 401
+        else:
             check = Paciente.query.get_or_404(get_jwt_identity())
-            if check.type_paciente == 'paciente':
+            if check:
                 return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
+            return func(*args, **kwargs)
     return wrapper
 
-def advogado_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
+def advogado_jwt_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         verify_jwt_in_request()
-        advogado =Advogado.query.get(kwargs.get(id)) 
-        if kwargs.get('advogado_id') == get_jwt_identity(): 
+        if kwargs.get('advogado_id') != get_jwt_identity():
+            return {'error': 'Unauthorized user'}, 401
+        else:
             check = Advogado.query.get_or_404(get_jwt_identity())
-            if check.type_advogado == 'advogado':
+            if check:
                 return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
+            return func(*args, **kwargs)
     return wrapper
-'''
-def outros_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
-        verify_jwt_in_request()
-        outros = Outros.query.get(kwargs.get(id)) 
-        if kwargs.get('outros_id') == get_jwt_identity(): 
-            check = Outros.query.get_or_404(get_jwt_identity())
-            if check.type_outros == 'outros':
-                return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
-    return wrapper
-'''
-
-def responsavel_jwt_required(func): 
-    @wraps(func) 
-    def wrapper(*args, **kwargs):  
+def responsavel_jwt_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         verify_jwt_in_request()
-        responsavel = Responsavel.query.get(kwargs.get(id)) 
-        if kwargs.get('responsavel_id') == get_jwt_identity(): 
+        if kwargs.get('responsavel_id') != get_jwt_identity():
+            return {'error': 'Unauthorized user'}, 401
+        else:
             check = Responsavel.query.get_or_404(get_jwt_identity())
-            if check.type_responsavel == 'responsavel':
+            if check:
                 return func(*args, **kwargs)
-        else: 
-            return {'msg': 'permission denied'}
 
+            return func(*args, **kwargs)
     return wrapper
+
+#cirar decorator para tipo de usuários, dentro da tabela outros -> permissão outros ver se o usuário acessa 
+#create_access_token(identity=[user.id, user.email])

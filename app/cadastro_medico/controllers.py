@@ -7,10 +7,11 @@ from flask_jwt_extended import jwt_required, decode_token
 from .schemas import MedicoSchema
 from app.model import BaseModel
 from app.utils.filters import filters
+from app.functions import cpf_check, email_check
 
 class MedicoCurrent(MethodView): #/medico/current
     def get(self):
-        schema = filters.getSchema(qs=request.args, schema_cls=MedicoSchema) 
+        schema = filters.getSchema(qs=request.args, schema_cls=MedicoSchema, many=True) 
         return jsonify(schema.dump(Medico.query.all())), 200
 
 
@@ -18,6 +19,9 @@ class MedicoCreate(MethodView): #/medico
     def post(self):
         schema = MedicoSchema()
         medico = schema.load(request.json)
+
+        if not email_check(medico.email) or not cpf_check(medico.cpf):
+            return {'error': 'Usuário já cadastrado'} 
 
         medico.save()
 

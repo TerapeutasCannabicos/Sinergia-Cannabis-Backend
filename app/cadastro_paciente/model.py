@@ -1,7 +1,7 @@
 from app.extensions import db
 import bcrypt
 from app.model import BaseModel
-from app.association import association_table2, association_table5
+from app.association import association_adm_paciente, association_gestor_paciente
 from app.storage.storage import storage
 
 class Paciente(BaseModel):
@@ -17,21 +17,22 @@ class Paciente(BaseModel):
     diagnostico = db.Column(db.String(2000), nullable=False)
     laudo_medico = db.Column(db.String(2000), nullable=False)
     receita_medica = db.Column(db.String(2000), nullable=False)
-    endereço = db.Column(db.String(500), nullable=False)
+    endereco = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False) 
-    confirmacao_cadastro = db.Column(db.Boolean, nullable=False)
+    cep = db.Column(db.String(50), nullable=False)
+    confirmacao_cadastro = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.LargeBinary(128))
 
     responsavel_id = db.Column(db.Integer, db.ForeignKey('responsavel.id')) 
-    medico_id = db.Column(db.Integer, db.ForeignKey('medico.id')) 
+    medico_id = db.Column(db.Integer, db.ForeignKey('medico.id'))
     outros_id = db.Column(db.Integer, db.ForeignKey('outros.id')) 
-    administrador = db.relationship('Administrador', secondary=association_table2, backref='paciente2')
-    gestor = db.relationship('Gestor', secondary=association_table5, backref='paciente5')
-    advogado = db.relationship('Advogado', back_populates='paciente')
+    administrador = db.relationship('Administrador', secondary=association_adm_paciente, backref='paciente_adm')
+    gestor = db.relationship('Gestor', secondary=association_gestor_paciente, backref='paciente_gestor')
+    advogado_id = db.Column(db.Integer, db.ForeignKey('advogado.id'))
 
     @property
     def password(self):

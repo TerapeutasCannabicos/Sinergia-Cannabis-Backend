@@ -1,25 +1,25 @@
 from app.extensions import db
 
-association_table = db.Table('association', db.Model.metadata,
-                            db.Column('administrador', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('gestor', db.Integer, db.ForeignKey('gestor.id')))
+association_adm_gestor = db.Table('association_adm_gestor', db.Model.metadata,
+                            db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
+                            db.Column('gestor_id', db.Integer, db.ForeignKey('gestor.id')))
 
-association_table2 = db.Table('association2', db.Model.metadata,
-                            db.Column('administrador', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('paciente', db.Integer, db.ForeignKey('paciente.id')))
+association_adm_paciente = db.Table('association_adm_paciente', db.Model.metadata,
+                            db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
+                            db.Column('paciente_id', db.Integer, db.ForeignKey('paciente.id')))
 
-association_table3 = db.Table('association3', db.Model.metadata,
-                            db.Column('administrador', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('medico', db.Integer, db.ForeignKey('medico.id')))
+association_adm_medico = db.Table('association_adm_medico', db.Model.metadata,
+                            db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
+                            db.Column('medico_id', db.Integer, db.ForeignKey('medico.id')))
 
-association_table4 = db.Table('association4', db.Model.metadata,
-                            db.Column('administrador', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('outros', db.Integer, db.ForeignKey('outros.id')))
+association_adm_outros = db.Table('association_adm_outros', db.Model.metadata,
+                            db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
+                            db.Column('outros_id', db.Integer, db.ForeignKey('outros.id')))
 
-association_table5 = db.Table('association5', db.Model.metadata,
-                            db.Column('gestor', db.Integer, db.ForeignKey('gestor.id')), 
-                            db.Column('paciente', db.Integer, db.ForeignKey('paciente.id')))
+association_gestor_paciente = db.Table('ssociation_gestor_paciente', db.Model.metadata,
+                            db.Column('gestor_id', db.Integer, db.ForeignKey('gestor.id')), 
+                            db.Column('paciente_id', db.Integer, db.ForeignKey('paciente.id')))
 
-association_table6 = db.Table('association6', db.Model.metadata,
-                            db.Column('administrador', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('advogado', db.Integer, db.ForeignKey('advogado.id')))
+association_adm_advogado = db.Table('association_adm_advogado', db.Model.metadata,
+                            db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
+                            db.Column('advogado_id', db.Integer, db.ForeignKey('advogado.id')))

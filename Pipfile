@@ -17,6 +17,10 @@ marshmallow = "*"
 schema = "*"
 sqlalchemy = "*"
 boto3 = "*"
+flask-json = "*"
+gunicorn = "*"
+psycopg2 = "*"
+flask-cors = "*"
 
 [dev-packages]
 

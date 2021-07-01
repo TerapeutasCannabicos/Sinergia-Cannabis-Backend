@@ -1,7 +1,8 @@
 from app.extensions import db
 import bcrypt
 from app.model import BaseModel
-from app.association import association_table6
+from app.association import association_adm_advogado
+from app.cadastro_paciente.model import Paciente
 
 class Advogado(BaseModel):
     __tablename__ = 'advogado'
@@ -12,19 +13,18 @@ class Advogado(BaseModel):
     cpf = db.Column(db.String(30),unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
-    endereço = db.Column(db.String(500), nullable=False)
+    endereco = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
     cep = db.Column(db.String(50), nullable=False)
-    confirmacao_cadastro = db.Column(db.Boolean, nullable=False)
+    confirmacao_cadastro = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.LargeBinary(128))
 
-    administrador = db.relationship('Administrador', secondary=association_table6, backref='advogado6')
-    paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
-    paciente = db.relationship('Paciente', back_populates= 'advogado')
+    administrador = db.relationship('Administrador', secondary=association_adm_advogado, backref='advogado_adm')
+    paciente = db.relationship(Paciente, backref='advogado_paciente')
 
     @property
     def password(self):

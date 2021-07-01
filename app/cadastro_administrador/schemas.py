@@ -18,7 +18,7 @@ class AdministradorSchema(ma.SQLAlchemySchema):
     cpf = ma.String(required=True)
     celular = ma.String(required=True)
     telefone_secundario = ma.String()
-    endereço = ma.String(required=True)
+    endereco = ma.String(required=True)
     bairro = ma.String(required=True)
     numero = ma.Integer(required=True)
     complemento = ma.String(required=True)

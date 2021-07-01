@@ -12,16 +12,17 @@ class Responsavel(BaseModel):
     rg = db.Column(db.String(30),unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
-    endereço = db.Column(db.String(500), nullable=False)
+    endereco = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
-    confirmacao_cadastro = db.Column(db.Boolean, nullable=False) 
+    cep = db.Column(db.String(50), nullable=False)
+    confirmacao_cadastro = db.Column(db.Boolean, default=False) 
     password_hash = db.Column(db.LargeBinary(128))  
 
-    paciente = db.relationship('Paciente', backref='responsavel')  
+    paciente = db.relationship('Paciente', backref='responsavel_paciente')  
 
     @property
     def password(self):

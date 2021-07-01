@@ -19,10 +19,13 @@ from app.cadastro_paciente.schemas import PacienteSchema
 from app.cadastro_responsavel.schemas import ResponsavelSchema
 from app.model import BaseModel
 from app.utils.filters import filters
+from app.functions import cpf_check, email_check
+import json
+from app.permissions import administrador_jwt_required
 
 class AdministradorCurrent(MethodView): #/administrador/current
     def get(self):
-        schema = filters.getSchema(qs=request.args, schema_cls=AdministradorSchema) 
+        schema = filters.getSchema(qs=request.args, schema_cls=AdministradorSchema, many=True) 
         return jsonify(schema.dump(Administrador.query.all())), 200
 
 
@@ -30,6 +33,9 @@ class AdministradorCreate(MethodView): #/administrador
     def post(self):
         schema = AdministradorSchema()
         administrador = schema.load(request.json)
+        
+        if not email_check(administrador.email) or not cpf_check(administrador.cpf):
+            return {'error': 'Usuário já cadastrado'}
 
         administrador.save()
 
@@ -41,7 +47,6 @@ class AdministradorCreate(MethodView): #/administrador
         mail.send(msg)
 
         return schema.dump(administrador), 201
-
 
 class AdministradorDetails(MethodView): #/administrador/<int:id>
     def get(self,id):
@@ -126,21 +131,113 @@ class ResetPassword(MethodView): #pw-reset
         administrador.save()
 
         return {'msg': 'senha atualizada'}, 200
-'''
+
 class RegisterConfirm(MethodView): #register-confirm
-    def get(self):        
-        schema = AdvogadoSchema
-        if Advogado.confirmacao_cadastro == False:
-            lista = Advogado.nome(many=True)
-            def nao_confirmados(lista):
-                for objeto in lista:
-                    lista.append(objeto)
-                return lista
 
-        return jsonify(schema.dump(lista.query.all())), 200
+    def get(self): 
 
-class RegisterAccept(MethodView): #register-accept
-    def get(self):
-        schema = filters.getSchema(qs=request.args, schema_cls=AdministradorSchema) 
-        return jsonify(schema.dump(Administrador.query.all())), 200
-'''
+        advogado = Advogado.query.filter_by(confirmacao_cadastro=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=AdvogadoSchema, many=True)
+        json_advogado = jsonify(schema.dump(advogado))
+        json_advogado = json_advogado.json
+        dicionario = {"advogado": json_advogado}
+
+
+        gestor = Gestor.query.filter_by(confirmacao_cadastro=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=GestorSchema, many=True)
+        json_gestor = jsonify(schema.dump(gestor))
+        json_gestor = json_gestor.json
+        dicionario["gestor"] = json_gestor
+
+        outros = Outros.query.filter_by(confirmacao_cadastro=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=OutrosSchema, many=True)
+        json_outros = jsonify(schema.dump(outros))
+        json_outros = json_outros.json
+        dicionario["outros"] = json_outros
+
+        medico = Medico.query.filter_by(confirmacao_cadastro=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=MedicoSchema, many=True)
+        json_medico = jsonify(schema.dump(medico))
+        json_medico = json_medico.json
+        dicionario["medico"] = json_medico
+
+        paciente = Paciente.query.filter_by(confirmacao_cadastro=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema, many=True)
+        json_paciente = jsonify(schema.dump(paciente))
+        json_paciente = json_paciente.json
+        dicionario["paciente"] = json_paciente
+
+        responsavel = Responsavel.query.filter_by(confirmacao_cadastro=False)
+        schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema, many=True)
+        json_responsavel = jsonify(schema.dump(responsavel))
+        json_responsavel = json_responsavel.json
+        dicionario["responsavel"] = json_responsavel
+
+        return json.dumps(dicionario), 200
+        
+
+class RegisterAcceptAdvogado(MethodView): #register-accept-advogado/<int:administrador_id>/<int:id>
+    decorators = [administrador_jwt_required]
+    def patch(self, administrador_id, id):
+        advogado = Advogado.query.get_or_404(id)
+        schema = AdvogadoSchema()
+        advogado = schema.load(request.json, instance = advogado, partial=True)
+
+        advogado.save()
+
+        return schema.dump(advogado)
+
+class RegisterAcceptGestor(MethodView): #register-accept-gestor/<int:administrador_id>/<int:id>
+    decorators = [administrador_jwt_required]
+    def patch(self, administrador_id, id):
+        gestor = Gestor.query.get_or_404(id)
+        schema = GestorSchema()
+        gestor = schema.load(request.json, instance = gestor, partial=True)
+
+        gestor.save()
+
+        return schema.dump(gestor)
+
+class RegisterAcceptOutros(MethodView): #register-accept-outros/<int:administrador_id>/<int:id>
+    decorators = [administrador_jwt_required]
+    def patch(self, administrador_id, id):
+        outros = Outros.query.get_or_404(id)
+        schema = OutrosSchema()
+        outros = schema.load(request.json, instance = outros, partial=True)
+
+        outros.save()
+
+        return schema.dump(outros)
+
+class RegisterAcceptMedico(MethodView): #register-accept-medico/<int:administrador_id>/<int:id>
+    decorators = [administrador_jwt_required]
+    def patch(self, administrador_id, id):
+        medico = Medico.query.get_or_404(id)
+        schema = MedicoSchema()
+        medico = schema.load(request.json, instance = medico, partial=True)
+
+        medico.save()
+
+        return schema.dump(medico)
+
+class RegisterAcceptPaciente(MethodView): #register-accept-paciente/<int:administrador_id>/<int:id>
+    decorators = [administrador_jwt_required]
+    def patch(self, administrador_id, id):
+        paciente = Paciente.query.get_or_404(id)
+        schema = PacienteSchema()
+        paciente = schema.load(request.json, instance = paciente, partial=True)
+
+        paciente.save()
+
+        return schema.dump(paciente)
+
+class RegisterAcceptResponsavel(MethodView): #register-accept-responsavel/<int:administrador_id>/<int:id>
+    decorators = [administrador_jwt_required]
+    def patch(self, administrador_id, id):
+        responsavel = Responsavel.query.get_or_404(id)
+        schema = ResponsavelSchema()
+        responsavel = schema.load(request.json, instance = responsavel, partial=True)
+
+        responsavel.save()
+
+        return schema.dump(responsavel)

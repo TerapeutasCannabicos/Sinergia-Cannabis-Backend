@@ -1,7 +1,7 @@
 from app.extensions import ma 
 from app.cadastro_outros.model import Outros
-from app.cadastro_outros.model import PermissaoOutros
 from marshmallow import ValidationError, validates
+from app.permissao_outros.schemas import PermissaoSchema
 
 class OutrosSchema(ma.SQLAlchemySchema):
 
@@ -19,7 +19,7 @@ class OutrosSchema(ma.SQLAlchemySchema):
     cpf = ma.String(required=True)
     celular = ma.String(required=True)
     telefone_secundario = ma.String()
-    endereço = ma.String(required=True)
+    endereco = ma.String(required=True)
     bairro = ma.String(required=True)
     numero = ma.Integer(required=True)
     complemento = ma.String(required=True)
@@ -31,22 +31,9 @@ class OutrosSchema(ma.SQLAlchemySchema):
 
     paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
+    permissao = ma.Nested(PermissaoSchema, many=True, dump_only=True)
 
     @validates('nome')
     def validate_nome(self, nome): 
         if nome == '': 
             raise ValidationError('Nome invalido')
-
-class PermissaoSchema(ma.SQLAlchemySchema):
-
-    class Meta:
-
-        model = PermissaoOutros
-        load_instance=True
-        ordered=True
-
-    id = ma.Integer(dump_only=True)
-    permissao_adm = ma.Boolean(dump_only=True)
-    permissao_gestor = ma.Boolean(dump_only=True)
-    permissao_medico = ma.Boolean(dump_only=True)
-    permissao_advogado = ma.Boolean(dump_only=True)

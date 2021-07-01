@@ -7,10 +7,11 @@ from flask_jwt_extended import jwt_required, decode_token
 from .schemas import AdvogadoSchema
 from app.model import BaseModel
 from app.utils.filters import filters
+from app.functions import cpf_check, email_check
 
 class AdvogadoCurrent(MethodView): #/advogado/current
     def get(self):
-        schema = filters.getSchema(qs=request.args, schema_cls=AdvogadoSchema) 
+        schema = filters.getSchema(qs=request.args, schema_cls=AdvogadoSchema, many=True) 
         return jsonify(schema.dump(Advogado.query.all())), 200
 
 
@@ -18,6 +19,9 @@ class AdvogadoCreate(MethodView): #/advogado
     def post(self):
         schema = AdvogadoSchema()
         advogado = schema.load(request.json)
+
+        if not email_check(advogado.email) or not cpf_check(advogado.cpf):
+            return {'error': 'Usuário já cadastrado'}
 
         advogado.save()
 

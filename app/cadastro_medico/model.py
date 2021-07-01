@@ -1,7 +1,7 @@
 from app.extensions import db
 import bcrypt
 from app.model import BaseModel
-from app.association import association_table3
+from app.association import association_adm_medico
 from app.storage.storage import storage
 
 class Medico(BaseModel):
@@ -21,18 +21,18 @@ class Medico(BaseModel):
     rg = db.Column(db.String(30),unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
-    endereço = db.Column(db.String(500), nullable=False)
+    endereco = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
     cep = db.Column(db.String(50), nullable=False) 
-    confirmacao_cadastro = db.Column(db.Boolean, nullable=False)
+    confirmacao_cadastro = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.LargeBinary(128))
 
-    paciente = db.relationship('Paciente', backref='medico') 
-    administrador = db.relationship('Administrador', secondary=association_table3, backref='medico3')
+    paciente = db.relationship('Paciente', backref='medico_paciente') 
+    administrador = db.relationship('Administrador', secondary=association_adm_medico, backref='medico_adm')
 
     @property
     def password(self):

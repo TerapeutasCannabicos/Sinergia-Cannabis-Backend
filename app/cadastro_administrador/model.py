@@ -1,7 +1,7 @@
 from app.extensions import db
 import bcrypt
 from app.model import BaseModel
-from app.association import association_table, association_table2, association_table3, association_table4, association_table6
+from app.association import association_adm_gestor, association_adm_paciente, association_adm_medico, association_adm_outros, association_adm_advogado
 
 class Administrador(BaseModel):
     __tablename__ = 'administrador'
@@ -12,7 +12,7 @@ class Administrador(BaseModel):
     cpf = db.Column(db.String(30),unique=True, nullable=False)
     celular = db.Column(db.String(20), nullable=False)
     telefone_secundario = db.Column(db.String(20), default=None)
-    endereço = db.Column(db.String(500), nullable=False)
+    endereco = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.Integer, nullable=False)
     complemento = db.Column(db.String(50), nullable=False)
@@ -21,11 +21,11 @@ class Administrador(BaseModel):
     cep = db.Column(db.String(50), nullable=False) 
     password_hash = db.Column(db.LargeBinary(128))
 
-    gestor = db.relationship('Gestor', secondary=association_table, backref='administrador1')
-    paciente = db.relationship('Paciente', secondary=association_table2, backref='administrador2')
-    medico = db.relationship('Medico', secondary=association_table3, backref='administrador3')
-    outros = db.relationship('Outros', secondary=association_table4, backref='administrador4')
-    advogado = db.relationship('Advogado', secondary=association_table6, backref='administrador6')
+    gestor = db.relationship('Gestor', secondary=association_adm_gestor, backref='administrador_gestor')
+    paciente = db.relationship('Paciente', secondary=association_adm_paciente, backref='administrador_paciente')
+    medico = db.relationship('Medico', secondary=association_adm_medico, backref='administrador_medico')
+    outros = db.relationship('Outros', secondary=association_adm_outros, backref='administrador_outros')
+    advogado = db.relationship('Advogado', secondary=association_adm_advogado, backref='administrador_advogado')
 
     @property
     def password(self):

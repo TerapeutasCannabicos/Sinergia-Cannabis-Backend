@@ -21,12 +21,13 @@ class PacienteSchema(ma.SQLAlchemySchema):
     diagnostico = ma.String(required=True)   #colocar envio de arquivos
     laudo_medico = ma.String(required=True) #colocar envio de arquivos
     receita_medica = ma.String(required=True) #colocar envio de arquivos
-    endereço = ma.String(required=True)
+    endereco = ma.String(required=True)
     bairro = ma.String(required=True)
     numero = ma.Integer(required=True)
     complemento = ma.String(required=True)
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
+    cep = ma.String(required=True) 
     confirmacao_cadastro = ma.Boolean(dump_only=True)
     password = ma.String(load_only=True, required=True)
 
