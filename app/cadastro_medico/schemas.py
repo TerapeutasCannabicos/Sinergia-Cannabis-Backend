@@ -32,12 +32,12 @@ class MedicoSchema(ma.SQLAlchemySchema):
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
     cep = ma.String(required=True) 
-    confirmacao_cadastro = ma.Boolean(dump_only=True)
+    confirmacao_cadastro = ma.Boolean(required=False)
     password = ma.String(load_only=True, required=True)
 
-    paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
-    administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
-
+    paciente = ma.Nested('PacienteSchema', dump_only=True)
+    administrador = ma.Nested('AdministradorSchema', dump_only=True)
+    anotacoesmedico = ma.Nested('AnotacoesMedicoSchema', dump_only=True)
 
     @validates('nome')
     def validate_nome(self, nome): 

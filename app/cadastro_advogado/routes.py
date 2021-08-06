@@ -1,10 +1,10 @@
 from flask import Blueprint 
-from app.cadastro_advogado.controllers import (AdvogadoCurrent, AdvogadoCreate, AdvogadoDetails, AdvogadoConfirm, EmailPassword, ResetPassword) 
+from app.cadastro_advogado.controllers import (AdvogadoLista, AdvogadoCreate, AdvogadoDetails, AdvogadoConfirm, EmailPassword, ResetPassword) 
 
 advogado_api = Blueprint('advogado_api', __name__)
 
 advogado_api.add_url_rule(
-    '/advogado/current', view_func=AdvogadoCurrent.as_view('advogado_current'), methods=['GET']
+    '/advogado/lista', view_func=AdvogadoLista.as_view('advogado_lista'), methods=['GET']
 )
 
 advogado_api.add_url_rule(

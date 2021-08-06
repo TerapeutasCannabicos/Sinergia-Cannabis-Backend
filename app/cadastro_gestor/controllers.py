@@ -1,15 +1,16 @@
 from flask.views import MethodView
 from flask import request, jsonify, render_template
 from app.cadastro_gestor.model import Gestor
-from app.extensions import db, mail
+from app.extensions import mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
 from .schemas import GestorSchema
-from app.model import BaseModel
 from app.utils.filters import filters
 from app.functions import cpf_check, email_check
+from app.permissions import gestor_required
 
-class GestorCurrent(MethodView): #/gestor/current
+class GestorLista(MethodView): #/gestor/lista
+    decorators = [gestor_required]
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=GestorSchema, many=True) 
         return jsonify(schema.dump(Gestor.query.all())), 200

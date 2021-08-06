@@ -1,7 +1,6 @@
 from app.extensions import ma 
 from app.cadastro_outros.model import Outros
 from marshmallow import ValidationError, validates
-from app.permissao_outros.schemas import PermissaoSchema
 
 class OutrosSchema(ma.SQLAlchemySchema):
 
@@ -27,11 +26,11 @@ class OutrosSchema(ma.SQLAlchemySchema):
     estado = ma.String(required=True)
     cep = ma.String(required=True) 
     confirmacao_cadastro = ma.Boolean(dump_only=True)
+    nivel_permissao = ma.Integer()
     password = ma.String(load_only=True, required=True)
 
     paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
-    permissao = ma.Nested(PermissaoSchema, many=True, dump_only=True)
 
     @validates('nome')
     def validate_nome(self, nome): 

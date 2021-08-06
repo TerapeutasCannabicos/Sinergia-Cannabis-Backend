@@ -1,4 +1,3 @@
-from app.permissions import responsavel_jwt_required
 from flask.views import MethodView
 from flask import request, jsonify, render_template
 from app.cadastro_responsavel.model import Responsavel
@@ -6,23 +5,18 @@ from app.cadastro_paciente.model import Paciente
 from app.extensions import db, mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
-from app.cadastro_responsavel.schemas import ResponsavelSchema
+from .schemas import ResponsavelSchema
 from app.cadastro_paciente.schemas import PacienteSchema
-from app.model import BaseModel
 from app.utils.filters import filters 
 from app.functions import cpf_check, email_check
-import json
+from app.permissions_with_id import responsavel_paciente_jwt_required
+from app.permissions import responsavel_required
 
-class ResponsavelCurrent(MethodView): #/responsavel/current
+class ResponsavelLista(MethodView): #/responsavel/lista
+    decorators = [responsavel_required]
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema, many=True) 
-        paciente = Paciente.query.filter_by(permissao_adm=False)
-        schemapac = filters.getSchema(qs=request.args, schema_cls=PacienteSchema, many=True)
-        json_paciente = jsonify(schemapac.dump(paciente))
-        json_paciente = json_paciente.json
-        dicionario = {"paciente": json_paciente}
-
-        return jsonify(schema.dump(Responsavel.query.all())), json.dumps(dicionario), 200
+        return jsonify(schema.dump(Responsavel.query.all())), 200
 
 class ResponsavelCreate(MethodView): #/responsavel
     def post(self):
@@ -126,3 +120,11 @@ class ResetPassword(MethodView): #pw-reset
         responsavel.save()
 
         return {'msg': 'senha atualizada'}, 200
+
+
+class ShowPacientes(MethodView): #/show/pacientes/<int:responsavel_id>
+    decorators = [responsavel_paciente_jwt_required]
+    def get(self,responsavel_id):
+        schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema)
+        paciente = Paciente.query.get_or_404(responsavel_id)
+        return schema.dump(paciente), 200

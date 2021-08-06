@@ -5,11 +5,12 @@ from app.extensions import db, mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
 from .schemas import AdvogadoSchema
-from app.model import BaseModel
 from app.utils.filters import filters
 from app.functions import cpf_check, email_check
+from app.permissions import advogado_required
 
-class AdvogadoCurrent(MethodView): #/advogado/current
+class AdvogadoLista(MethodView): #/advogado/lista
+    decorators = [advogado_required]
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=AdvogadoSchema, many=True) 
         return jsonify(schema.dump(Advogado.query.all())), 200

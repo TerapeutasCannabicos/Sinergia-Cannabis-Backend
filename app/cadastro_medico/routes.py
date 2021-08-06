@@ -1,10 +1,10 @@
 from flask import Blueprint 
-from app.cadastro_medico.controllers import (MedicoCurrent, MedicoCreate, MedicoDetails, MedicoConfirm, EmailPassword, ResetPassword) 
+from app.cadastro_medico.controllers import (MedicoLista, MedicoCreate, MedicoDetails, MedicoConfirm, EmailPassword, ResetPassword) 
 
 medico_api = Blueprint('medico_api', __name__)
 
 medico_api.add_url_rule(
-    '/medico/current', view_func=MedicoCurrent.as_view('medico_current'), methods=['GET']
+    '/medico/lista', view_func=MedicoLista.as_view('medico_lista'), methods=['GET']
 )
 
 medico_api.add_url_rule(

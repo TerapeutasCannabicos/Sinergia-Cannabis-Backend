@@ -9,7 +9,6 @@ class Paciente(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(200), nullable=False, unique=True)
     data_nascimento = db.Column(db.Date(), nullable=False) 
     cpf = db.Column(db.String(30),unique=True, nullable=False)
     rg = db.Column(db.String(30),unique=True, nullable=False)
@@ -24,8 +23,7 @@ class Paciente(BaseModel):
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False) 
     cep = db.Column(db.String(50), nullable=False)
-    confirmacao_cadastro = db.Column(db.Boolean, default=False)
-    password_hash = db.Column(db.LargeBinary(128))
+    permissao_calendario = db.Column(db.Boolean, default=False)
 
     responsavel_id = db.Column(db.Integer, db.ForeignKey('responsavel.id')) 
     medico_id = db.Column(db.Integer, db.ForeignKey('medico.id'))
@@ -33,17 +31,7 @@ class Paciente(BaseModel):
     administrador = db.relationship('Administrador', secondary=association_adm_paciente, backref='paciente_adm')
     gestor = db.relationship('Gestor', secondary=association_gestor_paciente, backref='paciente_gestor')
     advogado_id = db.Column(db.Integer, db.ForeignKey('advogado.id'))
-
-    @property
-    def password(self):
-        raise AttributeError('Password é somente para escrita')
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-
-    def verify_password(self, password:str) -> bool:
-        return bcrypt.checkpw(password.encode(), self.password_hash)
+    agendamento = db.relationship('Agendamento', backref='paciente')
 
 #Documentos pessoais
 

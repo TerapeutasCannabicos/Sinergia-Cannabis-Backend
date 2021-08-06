@@ -91,7 +91,7 @@
 | Função                   | Método | Endpoint                                                           |
 | ------------------------ | ------ | -------------------------------------------------------------------|
 | **get**                  | GET    | `/administrador/{administrador_id}`                                |
-| **get current user**     | GET    | `/administrador/current`                                           |
+| **get current user**     | GET    | `/administrador/lista`                                             |
 | **create**               | POST   | `/administrador`                                                   |
 | **update**               | PUT    | `/administrador/{administrador_id}`                                |
 | **partial update**       | PATCH  | `/administrador/{administrador_id}`                                |
@@ -106,6 +106,8 @@
 | **confirm cadastro**     | PATCH  | `register-accept-outros/{administrador_id}/{outros_id}`            |
 | **confirm cadastro**     | PATCH  | `register-accept-paciente/{administrador_id}/{paciente_id}`        |
 | **confirm cadastro**     | PATCH  | `register-accept-responsavel/{administrador_id}/{responsavel_id}`  |
+| **show medicos**         | GET    | `/show/medico`                                                     |
+| **show pacientes**       | GET    | `/show/medico/paciente/{medico_id}`                                |
 
 
 ---
@@ -140,7 +142,7 @@
 | Função                   | Método | Endpoint                                        |
 | ------------------------ | ------ | ----------------------------------------------- |
 | **get**                  | GET    | `/advogado/{advogado_id}`                       |
-| **get current user**     | GET    | `/advogado/current`                             |
+| **get current user**     | GET    | `/advogado/lista`                               |
 | **create**               | POST   | `/advogado`                                     |
 | **update**               | PUT    | `/advogado/{advogado_id}`                       |
 | **partial update**       | PATCH  | `/advogado/{advogado_id}`                       |
@@ -181,7 +183,7 @@
 | Função                   | Método | Endpoint                                        |
 | ------------------------ | ------ | ----------------------------------------------- |
 | **get**                  | GET    | `/gestor/{gestor_id}`                           |
-| **get current user**     | GET    | `/gestor/current`                               |
+| **get current user**     | GET    | `/gestor/lista`                                 |
 | **create**               | POST   | `/gestor`                                       |
 | **update**               | PUT    | `/gestor/{gestor_id}`                           |
 | **partial update**       | PATCH  | `/gestor/{gestor_id}`                           |
@@ -212,6 +214,8 @@
 | **estado**              | string(required)                     |
 | **cep**                 | string(required)                     |
 | **confirmacao_cadastro**| Boolean(auto)(confirmação cadastro)  |
+| **permissao adm**       | Boolean(auto)(permissao)             |
+| **nivel_permissao**     | integer                              |
 | **password**            | LargeBinary(required)                |
 | **paciente**            | relationship                         |
 | **administrador**       | relationship                         |
@@ -223,7 +227,9 @@
 | Função                   | Método | Endpoint                                        |
 | ------------------------ | ------ | ----------------------------------------------- |
 | **get**                  | GET    | `/outros/{outros_id}`                           |
-| **get current user**     | GET    | `/outros/current`                               |
+| **permissao outros**     | GET    | `/permission/outros`                            |
+| **permissao adm**        | PATCH  | `/permissao/adm/outros/{outros_id}`             |
+| **get current user**     | GET    | `/outros/lista`                                 |
 | **create**               | POST   | `/outros`                                       |
 | **update**               | PUT    | `/outros/{outros_id}`                           |
 | **partial update**       | PATCH  | `/outros/{outros_id}`                           |
@@ -242,7 +248,6 @@
 | ---------------         | ------------------------------------ |
 | **nome**                | string(required)                     |
 | **sobrenome**           | string(required)                     |
-| **email**               | string(required)                     |
 | **data_nascimento**     | Date                                 |
 | **cpf**                 | string(required)                     |
 | **rg**                  | string(required)                     |
@@ -257,7 +262,6 @@
 | **cidade**              | string(required)                     |
 | **estado**              | string(required)                     |
 | **confirmacao_cadastro**| Boolean(auto)(confirmação cadastro)  |
-| **password**            | LargeBinary(required)                |
 | **responsavel**         | relationship                         |
 | **gestor**              | relationship                         |
 | **medico**              | relationship                         |
@@ -270,7 +274,7 @@
 | Função                   | Método | Endpoint                                        |
 | ------------------------ | ------ | ----------------------------------------------- |
 | **get**                  | GET    | `/paciente/{paciente_id}`                       |
-| **get current user**     | GET    | `/paciente/current`                             |
+| **get current user**     | GET    | `/paciente/lista`                               |
 | **create**               | POST   | `/paciente`                                     |
 | **update**               | PUT    | `/paciente/{paciente_id}`                       |
 | **partial update**       | PATCH  | `/paciente/{paciente_id}`                       |
@@ -300,6 +304,7 @@
 | **complemento**         | string(required)                     |
 | **cidade**              | string(required)                     |
 | **estado**              | string(required)                     |
+| **cep**                 | string(required)                     |
 | **confirmacao_cadastro**| Boolean(auto)(confirmação cadastro)  |
 | **password**            | LargeBinary(required)                |
 | **paciente**            | relationship                         |
@@ -309,7 +314,7 @@
 | Função                   | Método | Endpoint                                        |
 | ------------------------ | ------ | ----------------------------------------------- |
 | **get**                  | GET    | `/responsavel/{responsavel_id}`                 |
-| **get current user**     | GET    | `/responsavel/current`                          |
+| **get current user**     | GET    | `/responsavel/lista`                            |
 | **create**               | POST   | `/responsavel`                                  |
 | **update**               | PUT    | `/responsavel/{responsavel_id}`                 |
 | **partial update**       | PATCH  | `/responsavel/{responsavel_id}`                 |
@@ -393,3 +398,31 @@ POST /procedures/2/medias
 }
 ```
 Caso o campo de **media seja atualizado** para qualquer entidade **a media anterior é automaticamente deletada**.
+
+
+---
+
+## Pasta Pacientes
+
+### Campos
+
+| Campo                   | Tipo                                 |
+| ---------------         | ------------------------------------ |
+| **nome**                | string                               |
+
+
+### Endpoints
+
+| Função                   | Método | Endpoint                                        |
+| ------------------------ | ------ | ----------------------------------------------- |
+| **get**                  | GET    | `/responsavel/{responsavel_id}`                 |
+| **get current user**     | GET    | `/responsavel/lista`                            |
+| **create**               | POST   | `/responsavel`                                  |
+| **update**               | PUT    | `/responsavel/{responsavel_id}`                 |
+| **partial update**       | PATCH  | `/responsavel/{responsavel_id}`                 |
+| **delete**               | DELETE | `/responsavel/{responsavel_id}`                 |
+| **email validation**     | GET    | `responsavel-confirm`                           |
+| **email reset password** | POST   | `pw-email`                                      |
+| **password reset**       | PATCH  | `pw-reset`                                      |
+
+---

@@ -13,7 +13,6 @@ class PacienteSchema(ma.SQLAlchemySchema):
     id = ma.Integer(dump_only=True)
     nome = ma.String(required=True)
     sobrenome = ma.String(required=True)
-    email = ma.Email(required=True)
     data_nascimento = ma.Date()
     cpf = ma.String(required=True)
     rg = ma.String(required=True)
@@ -28,8 +27,7 @@ class PacienteSchema(ma.SQLAlchemySchema):
     cidade = ma.String(required=True)
     estado = ma.String(required=True)
     cep = ma.String(required=True) 
-    confirmacao_cadastro = ma.Boolean(dump_only=True)
-    password = ma.String(load_only=True, required=True)
+    permissao_calendario = ma.Boolean(required=False)
 
     responsavel = ma.Nested('ResponsavelSchema', dump_only=True)
     gestor = ma.Nested('GestorSchema', many=True, dump_only=True)
@@ -37,6 +35,7 @@ class PacienteSchema(ma.SQLAlchemySchema):
     outros = ma.Nested('OutrosSchema', dump_only=True)
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
     advogado = ma.Nested('AdvogadoSchema', dump_only=True)
+    agendamento = ma.Nested('AgendamentoSchema', dump_only=True)
 
     @validates('nome')
     def validate_nome(self, nome): 

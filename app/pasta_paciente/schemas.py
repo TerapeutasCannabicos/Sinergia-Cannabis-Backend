@@ -10,4 +10,7 @@ class AnotacoesMedicoSchema(ma.SQLAlchemySchema):
         ordered=True    
     
     id = ma.Integer(dump_only=True)
-    texto = ma.String()
+    texto = ma.String(required=True)
+    medico_id = ma.Integer(required=True)
+
+    medico = ma.Nested('MedicoSchema', dump_only=True, exclude = ['anotacoesmedico'], only = ['nome', 'sobrenome', 'especialidade'])

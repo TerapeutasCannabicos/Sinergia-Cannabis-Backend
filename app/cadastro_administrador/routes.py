@@ -1,10 +1,10 @@
 from flask import Blueprint 
-from app.cadastro_administrador.controllers import (AdministradorCurrent, AdministradorCreate, AdministradorDetails, AdministradorConfirm, EmailPassword, ResetPassword, RegisterConfirm, RegisterAcceptAdvogado, RegisterAcceptGestor, RegisterAcceptOutros, RegisterAcceptMedico, RegisterAcceptPaciente, RegisterAcceptResponsavel) 
+from app.cadastro_administrador.controllers import (AdministradorLista, AdministradorCreate, AdministradorDetails, AdministradorConfirm, EmailPassword, ResetPassword, RegisterConfirm, RegisterAcceptAdvogado, RegisterAcceptGestor, RegisterAcceptOutros, RegisterAcceptMedico, RegisterAcceptResponsavel, ShowMedico, ShowMedicoPaciente) 
 
 administrador_api = Blueprint('administrador_api', __name__)
 
 administrador_api.add_url_rule(
-    '/administrador/current', view_func=AdministradorCurrent.as_view('administrador_current'), methods=['GET']
+    '/administrador/lista', view_func=AdministradorLista.as_view('administrador_lista'), methods=['GET']
 )
 
 administrador_api.add_url_rule(
@@ -28,7 +28,7 @@ administrador_api.add_url_rule(
 )
 
 administrador_api.add_url_rule(
-    '/register-confirm', view_func=RegisterConfirm.as_view('register_confirm'), methods=['GET']
+    '/register-confirm/<int:id>', view_func=RegisterConfirm.as_view('register_confirm'), methods=['GET']
 )
 
 administrador_api.add_url_rule(
@@ -48,9 +48,13 @@ administrador_api.add_url_rule(
 )
 
 administrador_api.add_url_rule(
-    '/register-accept-paciente/<int:administrador_id>/<int:id>', view_func=RegisterAcceptPaciente.as_view('register_accept_paciente'), methods=['PATCH']
+    '/register-accept-responsavel/<int:administrador_id>/<int:id>', view_func=RegisterAcceptResponsavel.as_view('register_accept_responsavel'), methods=['PATCH']
 )
 
 administrador_api.add_url_rule(
-    '/register-accept-responsavel/<int:administrador_id>/<int:id>', view_func=RegisterAcceptResponsavel.as_view('register_accept_responsavel'), methods=['PATCH']
+    '/show/medico', view_func=ShowMedico.as_view('show_medico'), methods=['GET']
+)
+
+administrador_api.add_url_rule(
+    '/show/medico/paciente/<int:medico_id>', view_func=ShowMedicoPaciente.as_view('show_medico_paciente'), methods=['GET']
 )

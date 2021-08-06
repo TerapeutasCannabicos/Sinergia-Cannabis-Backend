@@ -8,4 +8,9 @@ class AgendamentoSchema(ma.SQLAlchemySchema):
         ordered=True
     
     id = ma.Integer(dump_only=True)
-    date = ma.DateTime(required=True)
+    date = ma.Date(required=True)
+    disponivel = ma.Boolean(dump_only=True)
+    paciente_id = ma.Integer(required=True)
+
+    administrador = ma.Nested('AdministradorSchema', dump_only=True)
+    paciente = ma.Nested('PacienteSchema', dump_only=True)

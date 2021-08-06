@@ -33,6 +33,7 @@ class Medico(BaseModel):
 
     paciente = db.relationship('Paciente', backref='medico_paciente') 
     administrador = db.relationship('Administrador', secondary=association_adm_medico, backref='medico_adm')
+    anotacoesmedico = db.relationship("AnotacoesMedico", backref="medico")
 
     @property
     def password(self):

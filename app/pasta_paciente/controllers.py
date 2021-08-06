@@ -8,7 +8,9 @@ from app.cadastro_medico.model import Medico
 from app.cadastro_medico.schemas import MedicoSchema
 from app.model import BaseModel
 from app.utils.filters import filters
-from app.permissions import medico_jwt_required, advogado_jwt_required 
+from app.permissions_with_id import medico_jwt_required, advogado_jwt_required 
+from app.permissions import medico_required
+import json
 
 class PastaPacienteList(MethodView): #/pastapaciente/medico/<int:medico_id>
     decorators = [medico_jwt_required]
@@ -23,31 +25,33 @@ class AcessoAdvogado(MethodView): #/pastapaciente/advogado/<int:advogado_id>
     def get(self, advogado_id):
         schema = filters.getSchema(qs=request.args, schema_cls=PacienteSchema, many=True, rel=['receita_medica', 'laudo_medico']) 
         return jsonify(schema.dump(Paciente.query.all())), 200
-        #exclude=[]
 
-class AnotacoesMedicasCurrent(MethodView): #/anotacoesmedicas/current
-    def get(self):
+class AnotacoesMedicasLista(MethodView): #/anotacoesmedicas/lista
+    decorators = [medico_required]
+    def get(self, medico_id):
         schema = filters.getSchema(qs=request.args, schema_cls=AnotacoesMedicoSchema, many=True) 
-        return jsonify(schema.dump(AnotacoesMedico.query.all())), 200
+        return jsonify(schema.dump(AnotacoesMedicoSchema.query.all())), 200
 
-
-class AnotacoesMedicasCreate(MethodView): #/anotacoesmedicas/create
-    def post(self):
+class AnotacoesMedicasCreate(MethodView): #/anotacoesmedicas/create/<int:medico_id>
+    decorators = [medico_required]
+    def post(self, medico_id):
         schema = AnotacoesMedicoSchema()
-        anotacoesmedico = schema.load(request.json)
-
+        data = request.json
+        data["medico_id"] = medico_id
+        anotacoesmedico = schema.load(data)
         anotacoesmedico.save()
 
         return schema.dump(anotacoesmedico), 201
 
-class AnotacoesMedicasDetails(MethodView): #/anotacoesmedicas/details
-    def get(self,id):
+class AnotacoesMedicasDetails(MethodView): #/anotacoesmedicas/details/<int:anotacoesmedico_id>/<int:medico_id>
+    decorators = [medico_required]
+    def get(self, medico_id, anotacoesmedico_id):
         schema = filters.getSchema(qs=request.args, schema_cls=AnotacoesMedicoSchema)
-        anotacoesmedico = AnotacoesMedico.query.get_or_404(id)
+        anotacoesmedico = AnotacoesMedico.query.get_or_404(anotacoesmedico_id)
         return schema.dump(anotacoesmedico), 200
 
-    def put(self, id):
-        anotacoesmedico = AnotacoesMedico.query.get_or_404(id)
+    def put(self, medico_id, anotacoesmedico_id):
+        anotacoesmedico = AnotacoesMedico.query.get_or_404(anotacoesmedico_id)
         schema = AnotacoesMedicoSchema()
         anotacoesmedico = schema.load(request.json, instance = anotacoesmedico)
 
@@ -55,8 +59,8 @@ class AnotacoesMedicasDetails(MethodView): #/anotacoesmedicas/details
 
         return schema.dump(anotacoesmedico)
 
-    def patch(self, id):
-        anotacoesmedico = AnotacoesMedico.query.get_or_404(id)
+    def patch(self, medico_id, anotacoesmedico_id):
+        anotacoesmedico = AnotacoesMedico.query.get_or_404(anotacoesmedico_id)
         schema = AnotacoesMedicoSchema()
         anotacoesmedico = schema.load(request.json, instance = anotacoesmedico, partial=True)
 
@@ -64,8 +68,8 @@ class AnotacoesMedicasDetails(MethodView): #/anotacoesmedicas/details
 
         return schema.dump(anotacoesmedico)
 
-    def delete(self,id): 
-        anotacoesmedico = AnotacoesMedico.query.get_or_404(id)
+    def delete(self, medico_id, anotacoesmedico_id): 
+        anotacoesmedico = AnotacoesMedico.query.get_or_404(anotacoesmedico_id)
         anotacoesmedico.delete(anotacoesmedico)
 
         return {}, 204

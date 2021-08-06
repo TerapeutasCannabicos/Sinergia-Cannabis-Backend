@@ -22,7 +22,7 @@ class Responsavel(BaseModel):
     confirmacao_cadastro = db.Column(db.Boolean, default=False) 
     password_hash = db.Column(db.LargeBinary(128))  
 
-    paciente = db.relationship('Paciente', backref='responsavel_paciente')  
+    paciente = db.relationship('Paciente', backref='responsavel_paciente')
 
     @property
     def password(self):

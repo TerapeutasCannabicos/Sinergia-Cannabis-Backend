@@ -12,6 +12,7 @@ from app.cadastro_outros.routes import outros_api
 from app.storage.routes import storage_api
 from app.login.routes import login_api
 from app.pasta_paciente.routes import pasta_paciente_api
+from app.agendamento_atendimento.routes import agendamento_api
 
 
 def create_app():
@@ -35,5 +36,6 @@ def create_app():
     app.register_blueprint(storage_api)
     app.register_blueprint(login_api)
     app.register_blueprint(pasta_paciente_api)
+    app.register_blueprint(agendamento_api)
 
     return app

@@ -2,8 +2,8 @@ from app.cadastro_administrador.model import Administrador
 from app.cadastro_advogado.model import Advogado
 from app.cadastro_gestor.model import Gestor
 from app.cadastro_medico.model import Medico
-from app.cadastro_outros.model import Outros
 from app.cadastro_paciente.model import Paciente
+from app.cadastro_outros.model import Outros
 from app.cadastro_responsavel.model import Responsavel
 #from app.permissao_outros import PermissaoOutros
 
@@ -14,10 +14,9 @@ def email_check(email):
     gestor = Gestor.query.filter_by(email=email).first()
     medico = Medico.query.filter_by(email=email).first()
     outros = Outros.query.filter_by(email=email).first()
-    paciente = Paciente.query.filter_by(email=email).first()
     responsavel = Responsavel.query.filter_by(email=email).first()
 
-    if administrador or advogado or gestor or medico or outros or paciente or responsavel:
+    if administrador or advogado or gestor or medico or outros or responsavel:
         return False
 
     return True
