@@ -8,21 +8,21 @@ class Responsavel(BaseModel):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    cpf = db.Column(db.String(30),unique=True, nullable=False)
-    rg = db.Column(db.String(30),unique=True, nullable=False)
-    celular = db.Column(db.String(20), nullable=False)
+    cpf = db.Column(db.String(30),unique=True)
+    rg = db.Column(db.String(30),unique=True)
+    celular = db.Column(db.String(20), nullable=True)
     telefone_secundario = db.Column(db.String(20), default=None)
-    endereco = db.Column(db.String(500), nullable=False)
-    bairro = db.Column(db.String(200), nullable=False)
-    numero = db.Column(db.Integer, nullable=False)
-    complemento = db.Column(db.String(50), nullable=False)
-    cidade = db.Column(db.String(200), nullable=False)
-    estado = db.Column(db.String(200), nullable=False)
-    cep = db.Column(db.String(50), nullable=False)
-    confirmacao_cadastro = db.Column(db.Boolean, default=False) 
+    endereco = db.Column(db.String(500), nullable=True)
+    bairro = db.Column(db.String(200), nullable=True)
+    numero = db.Column(db.String(30), nullable=True)
+    complemento = db.Column(db.String(50), nullable=True)
+    cidade = db.Column(db.String(200), nullable=True)
+    estado = db.Column(db.String(200), nullable=True)
+    cep = db.Column(db.String(50), nullable=True)
+    confirmacao_cadastro = db.Column(db.Boolean, default=True) 
     password_hash = db.Column(db.LargeBinary(128))  
 
-    paciente = db.relationship('Paciente', backref='responsavel_paciente')  
+    patient = db.relationship('Patient', backref='responsavel_patient')
 
     @property
     def password(self):
@@ -35,4 +35,4 @@ class Responsavel(BaseModel):
     def verify_password(self, password:str) -> bool:
         return bcrypt.checkpw(password.encode(), self.password_hash)
 
-    #sistema de adimin só o Responsável pode criar o cadastro do paciente
+    #sistema de adimin só o Responsável pode criar o cadastro do patient

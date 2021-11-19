@@ -1,10 +1,10 @@
 from flask import Blueprint 
-from app.cadastro_gestor.controllers import (GestorCurrent, GestorCreate, GestorDetails, GestorConfirm, EmailPassword, ResetPassword) 
+from app.cadastro_gestor.controllers import (GestorLista, GestorCreate, GestorDetails, GestorConfirm, EmailPassword, ResetPassword) 
 
 gestor_api = Blueprint('gestor_api', __name__)
 
 gestor_api.add_url_rule(
-    '/gestor/current', view_func=GestorCurrent.as_view('gestor_current'), methods=['GET']
+    '/gestor/lista', view_func=GestorLista.as_view('gestor_lista'), methods=['GET']
 )
 
 gestor_api.add_url_rule(

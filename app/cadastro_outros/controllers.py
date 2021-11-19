@@ -1,20 +1,20 @@
 from flask.views import MethodView
 from flask import request, jsonify, render_template
 from app.cadastro_outros.model import Outros
-from app.permissao_outros.model import PermissaoOutros
 from app.extensions import mail
 from flask_mail import Message
-from flask_jwt_extended import decode_token
+from flask_jwt_extended import decode_token, get_jwt
 from app.cadastro_outros.schemas import OutrosSchema
-from app.model import BaseModel
 from app.utils.filters import filters
-from app.permissions import advogado_jwt_required, administrador_jwt_required, medico_jwt_required, gestor_jwt_required 
+from app.permissions_with_id import lawyer_jwt_required, administrador_jwt_required, medico_jwt_required, gestor_jwt_required 
 from app.functions import cpf_check, email_check
 import json
+from app.permissions import outros_required, administrador_required
+from app.model import BaseModel
 
 #/<int:medico_id>
 class PermissionOutros(MethodView): #permission/outros
-
+    decorators = [administrador_required]
     def get(self): 
 
         outros = Outros.query.filter_by(permissao_adm=False)
@@ -26,22 +26,30 @@ class PermissionOutros(MethodView): #permission/outros
         return json.dumps(dicionario), 200
 
 class PermissaoAdm(MethodView):   #/permissao/adm/outros/<int:id>
+    decorators = [administrador_required]
     def patch(self,id):
         outros = Outros.query.get_or_404(id)
-        schema = OutrosSchema()
-        outros = schema.load(request.json, instance = outros, partial=True)
+        if outros.nivel_permissao==1:
+            claims = get_jwt()
+            return claims["is_administrador"]
+        elif outros.nivel_permissao==2:
+            claims = get_jwt()
+            return claims["is_medico"]
 
-        outros.save()
+        elif outros.nivel_permissao==3:
+            claims = get_jwt()
+            return claims["is_lawyer"]
 
-        return schema.dump(outros)
-'''
-        permissao_outros = Outros.query.get_or_404(id)
-        permissao_outros.permissao = PermissaoOutros(outros_id = permissao_outros.id)
-        permissao_outros[1].nivel_permissao == 1
-'''
+        elif outros.nivel_permissao==4:
+            claims = get_jwt()
+            return claims["is_patient"]
 
+        else:
+            return {'error': 'Nível de permissão não identificado'}
+            
 
-class OutrosCurrent(MethodView): #/outros/current
+class OutrosLista(MethodView): #/outros/lista
+    decorators = [outros_required]
     def get(self):        
         schema = filters.getSchema(qs=request.args, schema_cls=OutrosSchema) 
         return jsonify(schema.dump(Outros.query.all())), 200
@@ -53,16 +61,16 @@ class OutrosCreate(MethodView): #/outros
         outros = schema.load(request.json)
 
         if not email_check(outros.email) or not cpf_check(outros.cpf):
-            return {'error': 'Usuário já cadastrado'} 
+            return {'error': 'Usuário já cadastrado'}
 
         outros.save()
 
-        msg = Message(sender= 'camilamaia@poli.ufrj.br',
+        '''msg = Message(sender= 'camilamaia@poli.ufrj.br',
                                recipients=[outros.email],
                                subject= 'Bem-vindo!', 
                                html=render_template('email.html', nome=outros.nome))
 
-        mail.send(msg)
+        mail.send(msg)'''
 
         return schema.dump(outros), 201
 
@@ -150,15 +158,3 @@ class ResetPassword(MethodView): #pw-reset
         outros.save()
 
         return {'msg': 'senha atualizada'}, 200
-'''
-class Advogado 
-
-        if PermissaoOutros.permissao_adm == True: 
-            return administrador_jwt_required
-        elif PermissaoOutros.permissao_gestor == True:
-            return gestor_jwt_required
-        elif PermissaoOutros.permissao_medico == True:
-            return medico_jwt_required
-        elif PermissaoOutros.permissao_advogado == True:
-            return advogado_jwt_required
-'''

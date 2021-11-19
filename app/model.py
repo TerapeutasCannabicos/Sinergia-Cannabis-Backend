@@ -6,6 +6,10 @@ class BaseModel(db.Model):
 
     __abstract__ = True
 
+    @classmethod
+    def create(cls, **data) -> object:
+        return cls(**data)
+
     @staticmethod
     def delete(obj):
         db.session.delete(obj)

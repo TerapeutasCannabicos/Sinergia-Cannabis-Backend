@@ -5,11 +5,13 @@ from app.extensions import db, mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
 from .schemas import MedicoSchema
-from app.model import BaseModel
 from app.utils.filters import filters
 from app.functions import cpf_check, email_check
+from app.permissions import medico_required
+from app.model import BaseModel
 
-class MedicoCurrent(MethodView): #/medico/current
+class MedicoLista(MethodView): #/medico/lista
+    decorators = [medico_required]
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=MedicoSchema, many=True) 
         return jsonify(schema.dump(Medico.query.all())), 200
@@ -21,16 +23,16 @@ class MedicoCreate(MethodView): #/medico
         medico = schema.load(request.json)
 
         if not email_check(medico.email) or not cpf_check(medico.cpf):
-            return {'error': 'Usuário já cadastrado'} 
+            return {'error': 'Usuário já cadastrado'}
 
         medico.save()
 
-        msg = Message(sender= 'camilamaia@poli.ufrj.br',
+        '''msg = Message(sender= 'camilamaia@poli.ufrj.br',
                                recipients=[medico.email],
                                subject= 'Bem-vindo!', 
                                html=render_template('email.html', nome=medico.nome))
 
-        mail.send(msg)
+        mail.send(msg)'''
 
         return schema.dump(medico), 201
 

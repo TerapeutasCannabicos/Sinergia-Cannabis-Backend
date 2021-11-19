@@ -4,9 +4,9 @@ association_adm_gestor = db.Table('association_adm_gestor', db.Model.metadata,
                             db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
                             db.Column('gestor_id', db.Integer, db.ForeignKey('gestor.id')))
 
-association_adm_paciente = db.Table('association_adm_paciente', db.Model.metadata,
+association_adm_patient = db.Table('association_adm_patient', db.Model.metadata,
                             db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('paciente_id', db.Integer, db.ForeignKey('paciente.id')))
+                            db.Column('patient_id', db.Integer, db.ForeignKey('patient.id')))
 
 association_adm_medico = db.Table('association_adm_medico', db.Model.metadata,
                             db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
@@ -16,10 +16,10 @@ association_adm_outros = db.Table('association_adm_outros', db.Model.metadata,
                             db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
                             db.Column('outros_id', db.Integer, db.ForeignKey('outros.id')))
 
-association_gestor_paciente = db.Table('ssociation_gestor_paciente', db.Model.metadata,
+association_gestor_patient = db.Table('ssociation_gestor_patient', db.Model.metadata,
                             db.Column('gestor_id', db.Integer, db.ForeignKey('gestor.id')), 
-                            db.Column('paciente_id', db.Integer, db.ForeignKey('paciente.id')))
+                            db.Column('patient_id', db.Integer, db.ForeignKey('patient.id')))
 
-association_adm_advogado = db.Table('association_adm_advogado', db.Model.metadata,
+association_adm_lawyer = db.Table('association_adm_lawyer', db.Model.metadata,
                             db.Column('administrador_id', db.Integer, db.ForeignKey('administrador.id')), 
-                            db.Column('advogado_id', db.Integer, db.ForeignKey('advogado.id')))
+                            db.Column('lawyer_id', db.Integer, db.ForeignKey('lawyer.id')))

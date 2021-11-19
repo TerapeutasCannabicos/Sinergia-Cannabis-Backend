@@ -1,28 +1,23 @@
-from app.permissions import responsavel_jwt_required
 from flask.views import MethodView
 from flask import request, jsonify, render_template
 from app.cadastro_responsavel.model import Responsavel
-from app.cadastro_paciente.model import Paciente
+from app.cadastro_patient.model import Patient
 from app.extensions import db, mail
 from flask_mail import Message
 from flask_jwt_extended import jwt_required, decode_token
-from app.cadastro_responsavel.schemas import ResponsavelSchema
-from app.cadastro_paciente.schemas import PacienteSchema
-from app.model import BaseModel
+from .schemas import ResponsavelSchema
+from app.cadastro_patient.schemas import PatientSchema
 from app.utils.filters import filters 
 from app.functions import cpf_check, email_check
-import json
+from app.permissions_with_id import responsavel_patient_jwt_required
+from app.permissions import responsavel_required
+from app.model import BaseModel
 
-class ResponsavelCurrent(MethodView): #/responsavel/current
+class ResponsavelLista(MethodView): #/responsavel/lista
+    decorators = [responsavel_required]
     def get(self):
         schema = filters.getSchema(qs=request.args, schema_cls=ResponsavelSchema, many=True) 
-        paciente = Paciente.query.filter_by(permissao_adm=False)
-        schemapac = filters.getSchema(qs=request.args, schema_cls=PacienteSchema, many=True)
-        json_paciente = jsonify(schemapac.dump(paciente))
-        json_paciente = json_paciente.json
-        dicionario = {"paciente": json_paciente}
-
-        return jsonify(schema.dump(Responsavel.query.all())), json.dumps(dicionario), 200
+        return jsonify(schema.dump(Responsavel.query.all())), 200
 
 class ResponsavelCreate(MethodView): #/responsavel
     def post(self):
@@ -30,16 +25,16 @@ class ResponsavelCreate(MethodView): #/responsavel
         responsavel = schema.load(request.json)
 
         if not email_check(responsavel.email) or not cpf_check(responsavel.cpf):
-            return {'error': 'Usuário já cadastrado'} 
+            return {'error': 'Usuário já cadastrado'}
 
         responsavel.save()
 
-        msg = Message(sender= 'camilamaia@poli.ufrj.br',
+        '''msg = Message(sender= 'camilamaia@poli.ufrj.br',
                                recipients=[responsavel.email],
                                subject= 'Bem-vindo!', 
                                html=render_template('email.html', nome=responsavel.nome))
 
-        mail.send(msg)
+        mail.send(msg)'''
 
         return schema.dump(responsavel), 201
 
@@ -126,3 +121,11 @@ class ResetPassword(MethodView): #pw-reset
         responsavel.save()
 
         return {'msg': 'senha atualizada'}, 200
+
+
+class ShowPatients(MethodView): #/show/patients/<int:responsavel_id>
+    decorators = [responsavel_patient_jwt_required]
+    def get(self,responsavel_id):
+        schema = filters.getSchema(qs=request.args, schema_cls=PatientSchema)
+        patient = Patient.query.get_or_404(responsavel_id)
+        return schema.dump(patient), 200

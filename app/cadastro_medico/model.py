@@ -23,7 +23,7 @@ class Medico(BaseModel):
     telefone_secundario = db.Column(db.String(20), default=None)
     endereco = db.Column(db.String(500), nullable=False)
     bairro = db.Column(db.String(200), nullable=False)
-    numero = db.Column(db.Integer, nullable=False)
+    numero = db.Column(db.String(20), nullable=False)
     complemento = db.Column(db.String(50), nullable=False)
     cidade = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(200), nullable=False)
@@ -31,8 +31,11 @@ class Medico(BaseModel):
     confirmacao_cadastro = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.LargeBinary(128))
 
-    paciente = db.relationship('Paciente', backref='medico_paciente') 
+    patient = db.relationship('Patient', backref='medico_patient') 
     administrador = db.relationship('Administrador', secondary=association_adm_medico, backref='medico_adm')
+    anotacoesmedico = db.relationship("AnotacoesMedico", backref="medico")
+    horario = db.relationship("Horario", backref="medico")
+    agendamento = db.relationship("Agendamento", backref="medico")
 
     @property
     def password(self):

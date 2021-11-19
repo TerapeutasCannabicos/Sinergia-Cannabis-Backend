@@ -27,7 +27,7 @@ class GestorSchema(ma.SQLAlchemySchema):
     confirmacao_cadastro = ma.Boolean(dump_only=True)
     password = ma.String(load_only=True, required=True)
 
-    paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
+    patient = ma.Nested('PatientSchema', many=True, dump_only=True)
     administrador = ma.Nested('AdministradorSchema', many=True, dump_only=True)
 
 

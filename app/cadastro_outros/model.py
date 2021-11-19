@@ -22,11 +22,11 @@ class Outros(BaseModel):
     cep = db.Column(db.String(50), nullable=False)
     confirmacao_cadastro = db.Column(db.Boolean, default=False)
     permissao_adm = db.Column(db.Boolean, default=False)
+    nivel_permissao = db.Column(db.Integer, default=None)
     password_hash = db.Column(db.LargeBinary(128))
 
-    paciente = db.relationship('Paciente', backref='outros_paciente') 
+    patient = db.relationship('Patient', backref='outros_patient') 
     administrador = db.relationship('Administrador', secondary=association_adm_outros, backref='outros_adm')
-    permissao = db.relationship("PermissaoOutros", uselist=False, back_populates="outros")
 
     @property
     def password(self):

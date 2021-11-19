@@ -1,10 +1,10 @@
 from flask import Blueprint 
-from app.cadastro_responsavel.controllers import (ResponsavelCurrent, ResponsavelCreate, ResponsavelDetails, ResponsavelConfirm, EmailPassword, ResetPassword) 
+from app.cadastro_responsavel.controllers import (ResponsavelLista, ResponsavelCreate, ResponsavelDetails, ResponsavelConfirm, EmailPassword, ResetPassword, ShowPatients) 
 
 responsavel_api = Blueprint('responsavel_api', __name__)
 
 responsavel_api.add_url_rule(
-    '/responsavel/current', view_func=ResponsavelCurrent.as_view('reponsavel_current'), methods=['GET']
+    '/responsavel/lista', view_func=ResponsavelLista.as_view('reponsavel_lista'), methods=['GET']
 )
 
 responsavel_api.add_url_rule(
@@ -25,4 +25,8 @@ responsavel_api.add_url_rule(
 
 responsavel_api.add_url_rule(
     '/pw-reset', view_func=ResetPassword.as_view('reset_password'), methods=['PATCH']
+)
+
+responsavel_api.add_url_rule(
+    '/show/patients/<int:responsavel_id>', view_func=ShowPatients.as_view('show_patients'), methods=['GET']
 )

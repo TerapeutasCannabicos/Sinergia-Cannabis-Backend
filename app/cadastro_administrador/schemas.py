@@ -28,10 +28,10 @@ class AdministradorSchema(ma.SQLAlchemySchema):
     password = ma.String(load_only=True, required=True)
 
     gestor = ma.Nested('GestorSchema', many=True, dump_only=True)
-    paciente = ma.Nested('PacienteSchema', many=True, dump_only=True)
+    patient = ma.Nested('PatientSchema', many=True, dump_only=True)
     medico = ma.Nested('MedicoSchema', many=True, dump_only=True)
     outros = ma.Nested('OutrosSchema', many=True, dump_only=True)
-    advogado = ma.Nested('AdvogadoSchema', many=True, dump_only=True)
+    lawyer = ma.Nested('LawyerSchema', many=True, dump_only=True)
 
     @validates('nome')
     def validate_nome(self, nome): 

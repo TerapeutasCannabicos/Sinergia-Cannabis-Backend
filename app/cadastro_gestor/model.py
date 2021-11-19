@@ -1,7 +1,7 @@
 from app.extensions import db
 import bcrypt
 from app.model import BaseModel
-from app.association import association_adm_gestor, association_gestor_paciente
+from app.association import association_adm_gestor, association_gestor_patient
 
 class Gestor(BaseModel):
     __tablename__ = 'gestor'
@@ -23,7 +23,7 @@ class Gestor(BaseModel):
     password_hash = db.Column(db.LargeBinary(128))
 
     administrador = db.relationship('Administrador', secondary=association_adm_gestor, backref='gestor_adm')
-    paciente = db.relationship('Paciente', secondary=association_gestor_paciente, backref='gestor_paciente')
+    patient = db.relationship('Patient', secondary=association_gestor_patient, backref='gestor_patient')
 
     @property
     def password(self):
